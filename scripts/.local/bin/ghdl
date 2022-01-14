@@ -1,0 +1,157 @@
+#!/usr/bin/env bash
+
+################################################################################
+##                             Check Dependencies                             ##
+################################################################################
+if ! gh auth status 2> /dev/null;then
+  cat <<EOF
+GiHub Cli is not installed or not configured!
+
+Please install the GitHub cli from here:
+
+    https://github.com/cli/cli/blob/trunk/docs/install_linux.md
+
+
+After installation please run:
+
+    $ gh auth login
+
+to configure the GitHub cli.
+EOF
+  exit 1
+fi
+
+if ! which whiptail &> /dev/null;then
+  cat <<EOF
+Whiptail is not installed or not in the PATH!
+
+Please install the newt library to use this program!
+
+Package name is either 'newt' or 'libnewt'
+    
+EOF
+  exit 1
+fi
+
+
+################################################################################
+##                          Error handler functions                           ##
+################################################################################
+function exit_error_ok() {
+  whiptail --backtitle "$APPAME" --title "Error!" --msgbox "$1" 0 0
+  exit 1
+}
+
+
+################################################################################
+##                          Latest Release management                         ##
+################################################################################
+function get_release() {
+  # Gets the latest non-prerelease id
+  # To get the latest release, no matter what use "latest" as an id
+  local release_id=0
+  local idx=0
+  releases=(`gh api "$API_BASE_URL/repos/$1/releases" | jq -r ".[].prerelease"`)
+  for is_prerelease in ${releases[@]}; do                                                                                                                                                                                         
+    #echo "Checking idx=$idx"
+    if [[ ${is_prerelease} == false ]];then
+      release_id=$(gh api "$API_BASE_URL/repos/$1/releases" | jq -r ".[$idx].id")
+      #echo "Found url: $url"
+      break
+    fi
+    idx=$(($idx + 1))
+  done
+  
+  if [[ $release_id == 0 ]];then
+    echo "error"
+    exit 1
+  fi
+  
+  echo $release_id
+}
+
+
+################################################################################
+##                          Download release assets                           ##
+################################################################################
+function download_release_asset() {
+  # Downloads an asset using the GitHub Api as a file, and not as a filthy html redirect
+  # as the browser and curl would do it.
+  local download_url="$1"
+  local download_path="$2"
+  
+  echo "Downloading $1 to $2..."
+  gh api -H "Accept:application/octet-stream" "$download_url" > "$download_path"
+}
+
+
+function ask_download_release_assets() {
+  local values=(`gh api "$API_BASE_URL/repos/$1/releases/$2" | jq -r '.assets[] | [.id, .name, "off"] | join(" ")'`)
+
+  local selected=(`whiptail --backtitle "$APPNAME" --title "Please choose the assets to download" --checklist "" 0 0 0 "${values[@]}" 3>&1 1>&2 2>&3 | sed 's/"//g'`)
+  [[ $? -ne 0 ]] && exit 1
+
+  # Go through a third of the the values, as each asset uses three indexes
+  for (( idx=0; idx < $(( ${#values[@]} / 3)) ; idx++));do
+    # Go through all the selected items to get its id and name (to not spam the github api)
+    for i in "${selected[@]}"; do
+      # Get name and id, $idx needs to be multiplied by three, because each asset in $values is represented by three elements
+      local asset_id=${values[$(($idx * 3))]} # At position 0 of the asset is the asset's id
+      local name=${values[$(($idx * 3 + 1))]} # At position 1 of the asset is the asset's name
+      
+      # If the asset's id matches the currently selected id, download it and continue with the next asset
+      if [[ "$i" == "$asset_id" ]];then
+        mkdir -p "$DOWNLOAD_DIRECTORY/$repo"
+        download_release_asset "$API_BASE_URL/repos/$1/releases/assets/$i" "$DOWNLOAD_DIRECTORY/$repo/$name"
+        break
+      fi
+    done
+  done
+}
+
+
+################################################################################
+##                           Building from source                             ##
+################################################################################
+function build_from_source() {
+  # Creating Build environment
+  local current_dir="$(pwd)"
+  if [ -d "/tmp/joplin-build/" ]; then 
+    rm -r "/tmp/joplin-build/"
+  fi
+  mkdir "/tmp/joplin-build/"
+  cd "/tmp/joplin-build/"
+  
+  # Going back to where it started
+  cd "${current_dir}"
+}
+
+
+################################################################################
+##                                Settings                                    ##
+################################################################################
+APPNAME="GitHub Downloader"
+API_BASE_URL="https://api.github.com"
+DOWNLOAD_DIRECTORY="/tmp/gh-downloads"
+
+
+################################################################################
+##                             Main execution                                 ##
+################################################################################
+repo=$(whiptail --backtitle "$APPNAME" --title "Enter repo to download assets from" --inputbox "Input should follow the schema 'owner/repo'" 0 0 "" 3>&1 1>&2 2>&3)
+[[ $? -ne 0 ]] && exit 1
+
+# Check if the repository exists
+if ! gh api "$API_BASE_URL/repos/$repo" &> /dev/null; then
+  exit_error_ok "Repository '$repo' is not on GitHub!"
+fi
+
+# Get the latest non-prerelease release
+latest_release=$(get_release "$repo")
+# If an error occured, exit
+if [[ "${latest_release}" == "error" ]];then
+  exit_error_ok "An Error occured, while getting the releases for '$repo'.\n\nMaybe this repository does not have any releases?"
+fi
+
+# Ask the user, which assets they want to download
+ask_download_release_assets $repo $latest_release
