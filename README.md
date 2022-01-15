@@ -22,3 +22,8 @@ Dependencies:
 - [GitHub CLI](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
 - [newt](https://archlinux.org/packages/community/x86_64/libnewt/)
 
+## Infos
+### ZSH
+- The file <./zsh/.zsh/key-bindings.zsh> is copied from [Oh My ZSH's
+  GitHub](https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/lib/key-bindings.zsh)
+
