@@ -12,18 +12,38 @@ To apply the configuration run:
 stow -v $(cat .stows)
 ```
 
+## Table of contents
+- [Scripts](#scripts)
+  - [ghdl](#ghdl)
+- [Infos](#infos)
+  - [neovim](#neovim)
+  - [ZSH](#zsh)
+
+---
+
 ## Scripts
 ### `ghdl`
 `ghdl` is a simple shell script that can download assets from GitHub release
 pages using the GitHub cli.
 
-Dependencies:
+<u>Dependencies</u>:
 
-- [GitHub CLI](https://github.com/cli/cli/blob/trunk/docs/install_linux.md)
-- [newt](https://archlinux.org/packages/community/x86_64/libnewt/)
+- [GitHub CLI](https://github.com/cli/cli/blob/trunk/docs/install_linux.md#arch-linux)
+- [libnewt](https://archlinux.org/packages/community/x86_64/libnewt/)
+
+---
 
 ## Infos
+### neovim
+Additional Dependencies:
+
+- [python-pynvim](https://archlinux.org/packages/community/any/python-pynvim/)
+
+After starting neovim the first time, please run `:PlugInstall` to install the
+plugins.
+
 ### ZSH
-- The file <./zsh/.zsh/key-bindings.zsh> is copied from [Oh My ZSH's
-  GitHub](https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/lib/key-bindings.zsh)
+- The file [zsh/.zsh/key-bindings.zsh](./zsh/.zsh/key-bindings.zsh)
+  is copied from [Oh My ZSH's GitHub](
+  https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/lib/key-bindings.zsh)
 
