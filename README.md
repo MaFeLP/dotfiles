@@ -39,8 +39,8 @@ Additional Dependencies:
 
 - [python-pynvim](https://archlinux.org/packages/community/any/python-pynvim/)
 
-After starting neovim the first time, please run `:PlugInstall` to install the
-plugins.
+At first startup ignore the error message by pressing enter. Then run
+`:PlugInstall` to install the plugins.
 
 ### ZSH
 - The file [zsh/.zsh/key-bindings.zsh](./zsh/.zsh/key-bindings.zsh)
