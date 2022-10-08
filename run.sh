@@ -61,7 +61,12 @@ function install_packages() {
 
 if [ "$SHELL" != "/usr/bin/zsh" ];then
   heading "Changing standard user shell..."
-  sudo chsh -s /usr/bin/zsh $(whoami)
+  sudo chsh -s /usr/bin/zsh "$(whoami)"
+  mkdir -pv "$HOME/.config/zsh" "$HOME/.local/state/zsh"
+  touch "$HOME/.config/zsh/.zshrc"
+  sudo chsh -s /usr/bin/zsh root
+  sudo mkdir -vp "/root/.config/zsh" "/root/.local/state/zsh"
+  sudo touch "/root/.config/zsh/.zshrc"
 fi
 
 heading "Installing make dependencies..."
@@ -69,7 +74,6 @@ sudo pacman -Syu --color=auto
 sudo pacman --color=auto --sync --asdeps --noconfirm --needed sd fd
 
 install_packages
-touch "$HOME"/.config/zsh/.zshrc
 
 install_buildaur
 
