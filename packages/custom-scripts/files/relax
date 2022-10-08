@@ -1,0 +1,109 @@
+#!/usr/bin/env bash
+
+SUCCESS="\n\033[0;2m\033[0;92m%s\033[0;0m\033[0;2m\n\n"
+ERROR="\n\033[0;2m\033[0;91m%s\033[0;0m\033[0;2m\n"
+
+function heading {
+  local width=$(tput cols 2> /dev/null)
+  [ -z $width ] && width=50
+
+  local text=$1
+  # prints '#' for a whole line
+  python3 -c "print('\033[0;2m\033[0;96m#' * ${width})"
+
+  # centers the text
+  python3 -c "print(' ' * ((${width} - ${#text}) // 2), end='')"
+  echo "$text"
+
+  # prints '#' for a whole line
+  python3 -c "print('#' * ${width} + '\033[0;0m\033[0;2m')"
+}
+
+function install_firefox_nightly {
+  dir="$(uu-mktemp -d)"
+  current="$(pwd)"
+  rmdir "$dir"
+  git clone ssh://aur@aur.archlinux.org/firefox-nightly-bin.git "$dir"
+  cd "$dir"
+  makepkg -s
+  sudo pacman --color=auto -U *.pkg.tar.zst --noconfirm
+  cd "$current"
+  rm -rf "$dir"
+}
+
+heading "Syncinc pacman packages and updating archlinux-keyring..."
+sudo pacman --color=auto -Sy archlinux-keyring --needed --noconfirm
+if [ $? -ne 0 ];then
+  uu-printf "$ERROR" "Error updating archlinux keyring..."
+  exit 1
+fi
+uu-printf "$SUCCESS" "Updated archlinux-keyring!"
+
+heading "Updating pacman packages..."
+sudo pacman --color=auto -Su
+if [ $? -ne 0 ];then
+  uu-printf "$ERROR" "Error updating pacman packages!"
+  exit 1
+fi
+uu-printf "$SUCCESS" "Updated pacman packages!"
+
+if which firefox-nightly &>/dev/null;then
+  heading "Updating firefox-nightly-bin"
+  install_firefox_nightly
+  if [ $? -ne 0 ];then
+    uu-printf "$ERROR" "Error updating firefox-nightly!"
+    exit 1
+  fi
+  uu-printf "$SUCCESS" "Updated firefox-nightly!"
+fi
+
+if which buildaur &> /dev/null;then
+  heading "Updating aur packages with buildaur..."
+  buildaur -Syu
+  if [ $? -ne 0 ];then
+    uu-printf "$ERROR" "Error updating aur packages!"
+    exit 1
+  fi
+  uu-printf "$SUCCESS" "Updated AUR packages!"
+fi
+
+if which snap &> /dev/null;then
+  heading "Updating snap packages..."
+  sudo snap refresh
+  if [ $? -ne 0 ];then
+    uu-printf "$ERROR" "Error updating snap packages!"
+    exit 1
+  fi
+  uu-printf "$SUCCESS" "Updated snap packages!"
+fi
+
+if which flatpak &> /dev/null;then
+  heading "Updating flatpaks..."
+  flatpak update
+  if [ $? -ne 0 ];then
+    uu-printf "$ERROR" "Error updating flatpaks!"
+    exit 1
+  fi
+  uu-printf "$SUCCESS" "Updated flatpaks!"
+fi
+
+if which rustup &> /dev/null;then
+  heading "Updating rust..."
+  rustup update
+  if [ $? -ne 0 ];then
+    uu-printf "$ERROR" "Error updating rust!"
+    exit 1
+  fi
+  uu-printf "$SUCCESS" "Updated rust!"
+fi
+
+if which cargo &> /dev/null;then
+  heading "Updating cargo crates..."
+  cargo install-update --all
+  if [ $? -ne 0 ];then
+    uu-printf "$ERROR" "Error updating cargo crates!"
+    exit 1
+  fi
+  uu-printf "$SUCCESS" "Updated cargo crates!"
+fi
+

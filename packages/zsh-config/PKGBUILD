@@ -1,0 +1,35 @@
+# Maintainer: MaFeLP <mafelp@proton.me>
+pkgname='zsh-config'
+pkgver='1.0.0'
+pkgrel='1'
+pkgdesc='My personal ZSH configurations'
+arch=('x86_64')
+url='https://github.com/mafelp/dotfiles'
+license=('GPL3')
+depends=(
+  'starship'
+  'thefuck'
+  'z'
+  'zsh'
+  'zsh-autosuggestions'
+  'zsh-completions'
+  'zsh-syntax-highlighting'
+)
+makedepends=()
+source=("files.tar.gz")
+sha256sums=("732dd32f205cf5188c8de55eaa20cad0c9b67af79ef926155269685d04bf8eac")
+install="${pkgname}.install"
+
+package() {
+  cd "${srcdir}/files"
+
+  # ZSH configs
+  for f in $(ls zsh);do
+    install -Dm644 zsh/$f "${pkgdir}/etc/zsh/custom/$f"
+  done
+
+  # Enables environment variables in tty
+  install -Dm644 environment "${pkgdir}/etc/zsh/zshenv"
+  install -Dm644 starship.toml "${pkgdir}/etc/starship.toml"
+  install -Dm644 zshrc "${pkgdir}/etc/zsh/zshrc"
+}

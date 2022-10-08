@@ -1,0 +1,7 @@
+/packages/**/pkg/
+/packages/**/src/
+/packages/**/*.tar.zst
+/packages/**/*.tar.gz
+
+# Temporary
+packages/custom-scripts/files/gnome-keyring-daemon-wrapper.sh

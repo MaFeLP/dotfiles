@@ -1,0 +1,31 @@
+# Maintainer: MaFeLP <mafelp@proton.me>
+pkgname='texlive-meta'
+pkgver='2022'
+pkgrel='1'
+pkgdesc='Meta Package for the latex-most package group'
+arch=('any')
+url='https://github.com/mafelp/dotfiles'
+license=('None')
+depends=(
+  "texlive-bibtexextra"
+  "texlive-core"
+  "texlive-fontsextra"
+  "texlive-formatsextra"
+  "texlive-games"
+  "texlive-humanities"
+  "texlive-latexextra"
+  "texlive-music"
+  "texlive-pictures"
+  "texlive-pstricks"
+  "texlive-publishers"
+  "texlive-science"
+
+  # Install optional texlive dependencies
+  #"biber" too many dependencies!
+  "dialog"
+  "ghostscript"
+  "perl-tk"
+  "wdiff"
+  "ed"
+  "fontforge"
+)

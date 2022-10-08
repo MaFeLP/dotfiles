@@ -1,0 +1,47 @@
+right_format = "$time$git_branch$git_status$git_commit$git_state"
+add_newline = false
+
+[username]
+style_root = "red"
+style_user = "green"
+format = "[$user]($style)[@](yellow)"
+show_always = true
+
+[hostname]
+trim_at = ""
+format = "[$hostname]($style) in "
+style = "green"
+ssh_only = false
+
+[directory]
+truncation_length = -1
+truncate_to_repo = false
+
+[character]
+success_symbol = "[\\$](bold green)"
+
+[time]
+format = "[\\[$time\\]](green)"
+disabled = false
+
+[git_branch]
+format = " on [$symbol$branch]($style) "
+
+[git_commit]
+only_detached = false
+format = "[\\($hash$tag\\)]($style)"
+tag_disabled = false
+
+[git_state]
+format = '[doing $state($progress_current/$progress_total)]($style) '
+rebase = "a rebase"
+merge = "a merge"
+revert = "a revert"
+cherry_pick = "a cherry_pick"
+bisect = "a bisect"
+am = "a am"
+am_or_rebase = "a am/rebase"
+
+[python]
+detect_extensions = []
+

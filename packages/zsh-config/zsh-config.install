@@ -1,0 +1,11 @@
+post_install() {
+    cat <<EOF
+
+Notice:
+
+To enable this customization, run the following commands:
+
+mkdir -p ~/.config/zsh ~/.local/state/zsh
+touch ~/.config/zsh/.zshrc
+EOF
+}

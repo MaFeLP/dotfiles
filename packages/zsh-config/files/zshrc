@@ -1,0 +1,53 @@
+#
+# zsh configuration file
+# ~/.zshrc
+#
+
+################################################################################
+##                            User Configuration                              ##
+################################################################################
+# Configure the history
+export HISTFILE="$XDG_STATE_HOME"/zsh/history
+HISTSIZE=1000
+SAVEHIST=1000
+
+# Extend globbing (wildcards)
+setopt extendedglob
+
+# Make the shell silent
+unsetopt beep nomatch notify
+
+# Set some environment variables
+source "/etc/zsh/custom/environments.zsh"
+
+# Set some aliases
+source "/etc/zsh/custom/aliases.zsh"
+
+# Set some useful functions
+source "/etc/zsh/custom/functions.zsh"
+
+# Good keybindings to use in the shell
+source "/etc/zsh/custom/key-bindings.zsh"
+
+# Display welcome text on startup
+RED="$(tput setaf 1)"
+ORANGE="$(tput setaf 3)"
+CYAN="$(tput setaf 6)"
+echo -e "${CYAN}Welcome to ${ORANGE}ArchLinux${RED}!$CYAN Running ${ORANGE}$(pacman -Q linux-zen)${RED}!"
+echo -e "${CYAN}You are currently logged in as: ${ORANGE}$(whoami)${RED}!"
+
+################################################################################
+##                                  Plugins                                   ##
+################################################################################
+# Makes prompt nice and enables 'fuck' and 'z' (fat jumping) commands
+eval $(thefuck --alias fuck)
+eval $(starship init zsh)
+[[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
+
+# Enables autocompletion
+zstyle :compinstall filename "$XDG_CONFIG_HOME/zsh/.zshrc"
+autoload -Uz compinit
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
+
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

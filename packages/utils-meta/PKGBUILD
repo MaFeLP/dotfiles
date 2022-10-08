@@ -1,0 +1,18 @@
+# Maintainer: MaFeLP <mafelp@proton.me>
+pkgname='utils-meta'
+pkgver='1.0.0'
+pkgrel='1'
+pkgdesc='Meta Package for personal utilities I use'
+arch=('any')
+url='https://github.com/mafelp/dotfiles'
+license=('None')
+depends=(
+  'bat'
+  'exa'
+  'fd'
+  'jq'
+  'ripgrep'
+  'sd'
+  'uutils-coreutils'
+  'yq'
+)

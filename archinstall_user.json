@@ -1,0 +1,26 @@
+{
+    "additional-repositories": [
+        "multilib"
+    ],
+    "audio": "pipewire",
+    "config_version": "2.5.0",
+    "debug": false,
+    "kernels": [
+        "linux-zen"
+    ],
+    "mount_point": null,
+    "packages": [
+        "ansible",
+        "base-devel",
+        "networkmanager",
+        "tar",
+        "zsh"
+    ],
+    "plugin": null,
+    "profile": {
+        "path": "/usr/lib/python3.10/site-packages/archinstall/profiles/minimal.py"
+    },
+    "script": "guided",
+    "silent": false,
+    "version": "2.5.0"
+}

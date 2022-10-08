@@ -1,0 +1,35 @@
+# Maintainer: MaFeLP <mafelp@proton.me>
+pkgname='custom-scripts'
+pkgver='1.0.0'
+pkgrel='1'
+pkgdesc='Some personal scripts I have written'
+arch=('x86_64')
+url='https://github.com/mafelp/dotfiles'
+license=('GPL3')
+depends=(
+  'github-cli'
+  'jq'
+  'libnewt'
+  'python3'
+  'openssh'
+  'uutils-coreutils'
+  'texlive-core'
+  'zsh'
+)
+optdepends=(
+  'buildaur: Update AUR packages with "relax"'
+  'flatpak: Update flatpak packages with "relax"'
+  'rustup: Update rust toolchain with "relax"'
+  'snapd: Update snap packages with "relax"'
+)
+makedepends=()
+source=("files.tar.gz")
+sha256sums=("1695e74816ad9bc4acf57e39e537d4e3cb6aa467733f34571f5ebabc94cab402")
+
+package() {
+  cd "${srcdir}/files"
+
+  for f in *;do
+    install -Dm755 $f "${pkgdir}/usr/bin/$f"
+  done
+}
