@@ -10,22 +10,13 @@ archinstall --config "https://raw.githubusercontent.com/MaFeLP/dotfiles/main/arc
 3. Configure the disk layout you want to use (recommended with btrfs)
 4. Install ArchLinux using the installer
 5. Boot ArchLinux and login with your new user
-6. Change the shell of the current user and re-log-in:
+6. Get the source files and run the installer:
 
 ```bash
-sudo chsh $(whoami) -s /bin/zsh
+git clone https://github.com/MaFeLP/dotfiles
+cd dotfiles
+./run.sh
 ```
 
-7. Run the `cli.yml` playbook:
+> **Note**: Observe the installer, as you may be prompted multiple times!
 
-```bash
-ansible-playbook cli.yml
-```
-
-8. Run one of the two playbooks:
-   - `KDE.yml`: Use when you want a KDE Desktop
-   - `Sway.yml`: Use when you want the Sway Window Manager
-
-```bash
-ansible-playbook <PLAYBOOK>
-```
