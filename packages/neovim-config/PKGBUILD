@@ -1,0 +1,47 @@
+# Maintainer: MaFeLP <mafelp@proton.me>
+pkgname='neovim-config'
+pkgver='1.0.0'
+pkgrel='1'
+pkgdesc='My personal neovim configurations'
+arch=('any')
+url='https://github.com/mafelp/dotfiles'
+license=('GPL3')
+depends=(
+  'neovim'
+  'python-pynvim'
+  'nvim-packer-git'
+  'wl-clipboard'
+
+  # Language Servers
+  'bash-language-server'
+  'clang'
+  'dart'
+  'deno'
+  'gopls'
+  'lua-language-server'
+  'pyright'
+  'rust-analyzer'
+  'texlab'
+  'vscode-css-languageserver'
+  'vscode-html-languageserver'
+  'vscode-json-languageserver'
+  'yaml-language-server'
+
+  # Language Servers from AUR
+  'cmake-language-server'
+  'dockerfile-language-server'
+  'java-language-server'
+  'sql-language-server'
+)
+makedepends=('fd')
+source=("files.tar.gz")
+sha256sums=("0add5f6fcf15a80e7425a9405afc47ad8ce7cfe20c1e7b7982567b4ede3039fb")
+install="${pkgname}.install"
+
+package() {
+  cd "${srcdir}/files"
+
+  for f in $(fd --extension=.lua);do
+    install -Dm644 "$f" "${pkgdir}/usr/share/neovim-config/$f"
+  done
+}
