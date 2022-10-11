@@ -2,7 +2,7 @@
 
 set -e
 
-CUSTOM_PKGS=("custom-scripts" "zsh-config")
+CUSTOM_PKGS=("custom-scripts" "zsh-config" "neovim-config")
 META_PKGS=("utils-meta" "texlive-meta")
 
 function heading {
@@ -28,12 +28,15 @@ function install_buildaur {
   local current="$(pwd)"
 
   rmdir "$dir"
-  git clone https://aur.archlinux.org/buildaur.git "$dir"
+  git clone https://aur.archlinux.org/buildaur-git.git "$dir"
   cd "$dir"
   makepkg --syncdeps
   sudo pacman --color=auto -U *.pkg.tar.zst --noconfirm
   cd "$current"
   rm -rf "$dir"
+
+  sudo sd '#editor="nano"' 'editor="nvim"' /etc/buildaur/buildaur.conf
+  sudo sd '#printer=None' 'printer="bat -P"' /etc/buildaur/buildaur.conf
 }
 
 function install_packages() {
@@ -69,13 +72,61 @@ if [ "$SHELL" != "/usr/bin/zsh" ];then
   sudo touch "/root/.config/zsh/.zshrc"
 fi
 
-heading "Installing make dependencies..."
-sudo pacman -Syu --color=auto
-sudo pacman --color=auto --sync --asdeps --noconfirm --needed sd fd
+make_pkg=('git' 'sd' 'fd' 'bat' 'ttf-nerd-fonts-symbols-common' 'jre-openjdk' 'jdk-openjdk')
+if ! pacman -Qi ${make_pkg[@]} &> /dev/null;then
+  heading "Installing make dependencies..."
+  sudo pacman -Syu --color=auto
+  for pkg in ${make_pkg[@]};do
+    if ! pacman -Qi "$pkg" &> /dev/null;then
+      sudo pacman --color=auto --sync --asdeps --noconfirm --needed "$pkg"
+    fi
+  done
+fi
+
+sudo sd '#ParallelDownloads = 5' 'ParallelDownloads = 5' /etc/pacman.conf
+
+if ! pacman -Qi buildaur-git &> /dev/null;then
+  install_buildaur
+fi
+
+nvim_deps=(
+  'nvim-packer-git'
+  'cmake-language-server'
+  'dockerfile-language-server'
+  'java-language-server'
+  'sql-language-server'
+)
+if ! pacman -Qi "${nvim_deps[@]}" &> /dev/null;then
+  heading "Installing neovim dependencies from the AUR..."
+  for dep in ${nvim_deps[@]};do
+    if ! pacman -Qi "$dep" &> /dev/null;then
+      buildaur -S "$dep"
+      sudo pacman -D --asdeps "$dep"
+    fi
+  done
+  
+  echo -e "\n\n:: Cleaning Buildaur build cache..."
+  yes | buildaur --clear
+fi
 
 install_packages
 
-install_buildaur
+heading "Applying customizations..."
+mkdir -pv ~/.config/zsh ~/.local/state/zsh
+touch ~/.config/zsh/.zshrc
+mkdir -pv ~/.config/nvim/
+ln -sv /usr/share/neovim-config/init.lua ~/.config/nvim/init.lua 2> /dev/null || \
+  echo "NeoVim Customizations already installed!"
 
-heading "Please restart, so the changes can take effect!"
+heading "Important Information"
+cat <<EOF
+There will be an error, the first time NeoVim is started.
+Please ignore the error and press 'enter' to continue.
+
+After the plugins are installed, press 'q' and exit NeoVim with ':q'.
+EOF
+read -p "Press any key to continue..."
+nvim "+PackerSync"
+
+heading "Restart to apply all updates."
 
