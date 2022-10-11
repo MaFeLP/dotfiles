@@ -11,6 +11,8 @@ depends=(
   'exa'
   'fd'
   'jq'
+  'git'
+  #'pandoc'
   'ripgrep'
   'sd'
   'uutils-coreutils'

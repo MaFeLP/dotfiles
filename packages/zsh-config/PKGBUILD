@@ -3,7 +3,7 @@ pkgname='zsh-config'
 pkgver='1.0.0'
 pkgrel='1'
 pkgdesc='My personal ZSH configurations'
-arch=('x86_64')
+arch=('any')
 url='https://github.com/mafelp/dotfiles'
 license=('GPL3')
 depends=(
@@ -17,7 +17,7 @@ depends=(
 )
 makedepends=()
 source=("files.tar.gz")
-sha256sums=("732dd32f205cf5188c8de55eaa20cad0c9b67af79ef926155269685d04bf8eac")
+sha256sums=("47f6cc1c2c0db7c23015a056f206a0117a1b2efff7e605b19c94a2147deefcbf")
 install="${pkgname}.install"
 
 package() {

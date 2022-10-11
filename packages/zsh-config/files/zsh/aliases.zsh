@@ -25,6 +25,7 @@ alias obs-prep='sudo modprobe v4l2loopback card_label="OBS Virtual Camera" && su
 alias comma2dot="xmodmap -e 'keycode 91 = greater period greater period'"
 alias getkeyinfo="xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf \"%-3s %s\\n\", \$5, \$8 }'"
 alias ll='exa -lbh --icons --color=auto --group-directories-first'
+alias tree='exa --icons --color=auto --tree'
 alias cl='buildaur --clear && sudo pacman -Sc && sudo journalctl --rotate && sudo journalctl --vacuum-time=10s'
 alias docker-cleanup="docker image ls | grep '<none>' | cut -c 33-44 | xargs docker image rm"
 alias buildaur-install="fd --no-ignore --glob '*.pkg.tar.zst' .cache/buildaur/build --exec-batch sudo pacman -U {} \;"
