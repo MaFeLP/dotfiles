@@ -8,10 +8,12 @@ url='https://github.com/mafelp/dotfiles'
 license=('None')
 depends=(
   'bat'
+  'btop'
   'exa'
   'fd'
-  'jq'
   'git'
+  'jq'
+  'neofetch'
   #'pandoc'
   'ripgrep'
   'sd'
