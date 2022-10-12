@@ -25,6 +25,7 @@ depends=(
   'vscode-css-languageserver'
   'vscode-html-languageserver'
   'vscode-json-languageserver'
+  'qt6-declarative'
   'yaml-language-server'
 
   # Language Servers from AUR
@@ -35,7 +36,7 @@ depends=(
 )
 makedepends=('fd')
 source=("files.tar.gz")
-sha256sums=("0add5f6fcf15a80e7425a9405afc47ad8ce7cfe20c1e7b7982567b4ede3039fb")
+sha256sums=("67c98565488262b6bdae37bdefb7ec0a65528e19149fa1c7edeb12ba1a489035")
 install="${pkgname}.install"
 
 package() {
