@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='neovim-config'
-pkgver='1.0.1'
+pkgver='1.0.2'
 pkgrel='1'
 pkgdesc='My personal neovim configurations'
 arch=('any')

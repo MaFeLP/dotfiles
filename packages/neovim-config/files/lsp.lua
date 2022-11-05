@@ -152,4 +152,9 @@ cmp.setup.filetype('gitcommit', {
     { name = 'buffer' },
   })
 })
+cmp.setup.filetype('markdown', {
+  sources = cmp.config.sources({
+    { name = 'buffer' },
+  })
+})
 
