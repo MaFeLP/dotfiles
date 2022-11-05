@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='neovim-config'
-pkgver='1.0.2'
+pkgver='1.0.3'
 pkgrel='1'
 pkgdesc='My personal neovim configurations'
 arch=('any')
@@ -33,10 +33,14 @@ depends=(
   'dockerfile-language-server'
   'java-language-server'
   'sql-language-server'
+  
+  # Other additional dependencies for language Servers
+  'shellcheck'
+  'qt6-languageserver'
 )
 makedepends=('fd')
 source=("files.tar.gz")
-sha256sums=("aad8c0e3597f1cb1cefe3bc832a29b4a237e64e7a2757bc3ba250eea57b06e5c")
+sha256sums=("396d434c928e1b092a2eeb8419ddfaf433f98a849f38d796d7a12dd3e1b7eaeb")
 install="${pkgname}.install"
 
 package() {

@@ -23,3 +23,10 @@ vim.cmd 'hi CursorLineNr guifg=#ffa500'
 opt.cursorline = true
 opt.cursorlineopt = 'number'
 
+vim.cmd 'filetype on'
+vim.filetype.add({
+  extension = {
+    qml = 'qmljs',
+  }
+})
+
