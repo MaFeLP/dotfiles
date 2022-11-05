@@ -18,25 +18,6 @@ return require('packer').startup(function(use)
     run = function()
       local ts_update = require('nvim-treesitter.install').update({ with_sync = true })
       ts_update()
-
-      -- Workaround for folding sometimes not working
-      -- See https://github.com/nvim-treesitter/nvim-treesitter/wiki/Installation#packernvim for more information
-      vim.api.nvim_create_autocmd({'BufEnter','BufAdd','BufNew','BufNewFile','BufWinEnter'}, {
-        group = vim.api.nvim_create_augroup('TS_FOLD_WORKAROUND', {}),
-        callback = function()
-          vim.opt.foldmethod     = 'expr'
-          vim.opt.foldexpr       = 'nvim_treesitter#foldexpr()'
-        end
-      })
-
-      require'nvim-treesitter.configs'.setup {
-        ensure_installed = { "qmljs", "regex", "toml" },
-        sync_install = false,
-        hightlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        }
-      }
     end,
   }
 
