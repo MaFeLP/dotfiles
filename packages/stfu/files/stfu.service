@@ -1,0 +1,13 @@
+[Unit]
+Description=Shut The Fuck Up Daemon - Run programs in the background
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/tmp/
+ExecStart=/usr/bin/stfu --daemon
+
+[Install]
+WantedBy=default.target
+
+# https://wiki.archlinux.org/title/Systemd/User

@@ -1,0 +1,25 @@
+# Maintainer: MaFeLP <mafelp@proton.me>
+pkgname='stfu'
+pkgver='1.0.0'
+pkgrel='1'
+pkgdesc='Run commands in the background'
+arch=('any')
+url='https://github.com/mafelp/dotfiles'
+license=('GPL3')
+depends=(
+  'bash'
+  'coreutils'
+  'systemd'
+)
+makedepends=()
+source=("files.tar.gz")
+sha256sums=("303f38fadd6ef29f8d80b6fc243c39f0ca8b0a398abd7ec3c15d4505a5c53d7c")
+install="${pkgname}.install"
+
+package() {
+  cd "${srcdir}/files"
+
+  install -Dm755 stfu.sh "${pkgdir}/usr/bin/stfu"
+  install -Dm755 stfu.service "${pkgdir}/usr/lib/systemd/user/stfu.service"
+}
+
