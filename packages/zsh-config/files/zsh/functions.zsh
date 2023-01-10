@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+source /usr/share/makepkg/util/message.sh
+
 function md2html() {
   if [ "$1" = "-h" -o "$1" = "--help" -o -z "$1" ]
   then
@@ -93,10 +95,3 @@ function hugo-new {
   $EDITOR "content/blog/$name/index.md"
 }
 
-function stfu {
-  echo "Command:"
-  echo $@
-  $@ &> /dev/null &
-  echo "Process ID:"
-  disown
-}
