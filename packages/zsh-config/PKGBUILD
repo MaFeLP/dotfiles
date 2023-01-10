@@ -1,7 +1,7 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='zsh-config'
 pkgver='1.0.1'
-pkgrel='1'
+pkgrel='2'
 pkgdesc='My personal ZSH configurations'
 arch=('any')
 url='https://github.com/mafelp/dotfiles'
@@ -25,7 +25,7 @@ package() {
 
   # ZSH configs
   for f in zsh/*;do
-    install -Dm644 $f "${pkgdir}/etc/zsh/custom/$f"
+    install -Dm644 $f "${pkgdir}/etc/zsh/custom/$(basename "$f")"
   done
 
   # Enables environment variables in tty
