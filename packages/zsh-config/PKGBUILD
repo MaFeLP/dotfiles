@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='zsh-config'
-pkgver='1.0.0'
+pkgver='1.0.1'
 pkgrel='1'
 pkgdesc='My personal ZSH configurations'
 arch=('any')
@@ -17,15 +17,15 @@ depends=(
 )
 makedepends=()
 source=("files.tar.gz")
-sha256sums=("47f6cc1c2c0db7c23015a056f206a0117a1b2efff7e605b19c94a2147deefcbf")
+sha256sums=("df6109065f001efafd5ac1205800ffc7b75ee0f221cd9a198e5d9e8720f8b371")
 install="${pkgname}.install"
 
 package() {
   cd "${srcdir}/files"
 
   # ZSH configs
-  for f in $(ls zsh);do
-    install -Dm644 zsh/$f "${pkgdir}/etc/zsh/custom/$f"
+  for f in zsh/*;do
+    install -Dm644 $f "${pkgdir}/etc/zsh/custom/$f"
   done
 
   # Enables environment variables in tty

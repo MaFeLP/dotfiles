@@ -4,7 +4,6 @@
 # Enable colors
 alias pacman="pacman --color=auto"
 alias ls='ls --color=auto'
-alias exa='exa --icons --color=auto'
 
 # Make dotfiles go away
 alias wget='wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'
@@ -24,8 +23,6 @@ alias obs-prep='sudo modprobe v4l2loopback card_label="OBS Virtual Camera" && su
 
 alias comma2dot="xmodmap -e 'keycode 91 = greater period greater period'"
 alias getkeyinfo="xev | awk -F'[ )]+' '/^KeyPress/ { a[NR+2] } NR in a { printf \"%-3s %s\\n\", \$5, \$8 }'"
-alias ll='exa -lbh --icons --color=auto --group-directories-first'
-alias tree='exa --icons --color=auto --tree'
 alias cl='buildaur --clear && sudo pacman -Sc && sudo journalctl --rotate && sudo journalctl --vacuum-time=10s'
 alias docker-cleanup="docker image ls | grep '<none>' | cut -c 33-44 | xargs docker image rm"
 alias buildaur-install="fd --no-ignore --glob '*.pkg.tar.zst' .cache/buildaur/build --exec-batch sudo pacman -U {} \;"
@@ -44,3 +41,16 @@ alias iserv-mount='sudo mount https://webdav.gym-meiendorf.de'
 alias iserv-unmount='sudo umount /mnt/IServ/'
 alias cloud-mount='sudo mount //192.168.178.21/max && sudo mount //192.168.178.21/Public'
 alias cloud-unmount='sudo umount /mnt/WDMyCloudMirror/max && sudo umount /mnt/WDMyCloudMirror/Public'
+
+if [ "$TTY" =~ \/dev\/tty[0-9]+ ];then
+  # Logged in in tty
+  alias exa='exa --color=auto'
+  alias ll='exa -lbh --color=auto --group-directories-first'
+  alias tree='exa --color=auto --tree'
+else
+  # Logged in not via tty, e.g. SSH / Desktop Environment
+  alias exa='exa --icons --color=auto'
+  alias ll='exa -lbh --icons --color=auto --group-directories-first'
+  alias tree='exa --icons --color=auto --tree'
+fi
+
