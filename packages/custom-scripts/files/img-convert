@@ -1,0 +1,57 @@
+#!/usr/bin/bash
+
+# Include nice functions for structuring colored output
+source /usr/share/makepkg/util/message.sh
+colorize
+
+msg "Converting jpeg, JPEG, jpg, JPG, png and PNG files to webp..."
+
+# Create a backup directory, which does not exist, and create it
+outdir="old_images_$(openssl rand -hex 3)"
+while ! [[ -e "$outdir" ]]; do outdir="old_images_$(openssl rand -hex 3)"; done
+mkdir -v "$outdir"
+
+# Create a custom ignorefile to pass to fd, so files are not processed,
+# when in the ignore directory. Also ignore files/directories from .gitignore,
+# without modifying it.
+ignorefile="$(mktemp)"
+if [ -f ".gitignore" ];then
+  cp ".gitignore" "${ignorefile}"
+fi
+echo "${outdir}" >> "${ignorefile}"
+
+# Use 'fd' to find all files with extension at "$1"
+fd_ext() {
+  return /usr/bin/fd --ignore-file "${ignorefile}" --extension="$1"
+}
+
+# Main conversion loop
+for ext in (jpeg JPEG jpg JPG png PNG);do
+  # for loop will fail, if no files match the specified extension,
+  # therefore test if there are any file in the directories yet
+  if ! [ -z "$(fd_ext ${ext})" ];then
+
+    # Convert all the files with the specific extension
+    for file in $(fd_ext ${ext});do
+      printf "converting '${file}'\n"
+      convert "${file}" "${file%.*}"
+
+      # Moving file to backup directory for easy deletion
+      printf "${file} -> ${outdir}/${file}"
+      mkdir -p "$(dirname "${outdir}")"  # handle creation of directories for nested files
+      mv "${file}" "${outdir}/${file}"
+    done
+  fi
+done
+
+msg "Removing EXIF metadata..."
+if ! [ -z "$(fd_ext webp)" ];then
+  printf "$(fd_ext webp)\n"
+  exiftool -all= --icc_profile:all $(fd_ext webp)
+fi
+if ! [ -z "$(fd_ext webp_original)" ];then
+  rm -v $(fd_ext webp_original)
+fi
+
+msg "Done!"
+

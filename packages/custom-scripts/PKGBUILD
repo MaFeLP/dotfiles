@@ -10,8 +10,9 @@ depends=(
   'github-cli'
   'jq'
   'libnewt'
-  'python3'
   'openssh'
+  'pacman'
+  'python3'
   'uutils-coreutils'
   'texlive-core'
   'zsh'
@@ -24,7 +25,7 @@ optdepends=(
 )
 makedepends=()
 source=("files.tar.gz")
-sha256sums=("1695e74816ad9bc4acf57e39e537d4e3cb6aa467733f34571f5ebabc94cab402")
+sha256sums=("ffee8b88cfe2654c14a0d640e8875fd535b59d072e5a2eb9f2513f6706c5b11f")
 
 package() {
   cd "${srcdir}/files"
