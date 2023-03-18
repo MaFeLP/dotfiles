@@ -1,7 +1,20 @@
 #!/usr/bin/env bash
 
-SUCCESS="\n\033[0;2m\033[0;92m%s\033[0;0m\033[0;2m\n\n"
-ERROR="\n\033[0;2m\033[0;91m%s\033[0;0m\033[0;2m\n"
+RESET="$(tput sgr0)"
+BOLD="$(tput bold)"
+BLUE="$(tput setaf 4)"
+GREEN="$(tput setaf 2)"
+RED="$(tput setaf 1)"
+YELLOW="$(tput setaf 3)"
+GREY="$(tput setaf 8)"
+
+SUCCESS="\n${BOLD}${GREEN}%s${RESET}\n\n"
+ERROR="\n${BOLD}${RED}%s${RESET}\n"
+
+MAINSTEP="${BOLD}${BLUE}:: ${RESET}${BOLD}%s${RESET}\n"
+INPUT="${BOLD}${YELLOW}:: ${RESET}${BOLD}%s${RESET}"
+
+readonly RESET BOLD BLUE GREEN RED YELLOW SUCCESS ERROR MAINSTEP INPUT
 
 function heading {
   local width
@@ -32,6 +45,82 @@ function install_firefox_nightly {
   sudo pacman --color=auto -U ./*.pkg.tar.zst --noconfirm
   cd "$current" || exit 1
   rm -rf "$dir"
+}
+
+function upgrade_pip {
+  uu-printf "$MAINSTEP" "Getting out of date packages..."
+
+  # Set up variables for this function
+  local pkgjson  # JSON encoded packages that can be upgraded
+  local pkglist  # A '\n' separated list of packages that can be upgraded
+  local pkgcount  # The number of packages that will be upgraded
+  local pkgversions  # A '\n' separated list of packages that can be upgraded in the format: '<NAME>%s<VERSION>'
+  local pkg  # When looping over a pkglist, the current package to use
+  local to_print  # What will be printed next, useful for character calculations
+  local print_width  # How many characters wide $to_print is
+  local current_width  # In which colum the cursor currently is
+  local terminal_width  # How wide the terminal is
+  local indent_width  # How far each new line should be indented, when displaying packages to up upgraded
+  local choice  # When asking input from the user, read into this variable
+  local idx  # current index when looping
+
+  pkgjson=$(pip list --outdated --user --format=json)
+  pkglist=$(uu-printf -- "$pkgjson" | jq --raw-output '.[].name')
+  pkgcount=$(uu-printf -- "$pkgjson" | jq --raw-output '.[] | [.name, .version] | join("%s")' | wc --lines)
+  pkgversions=$(uu-printf -- "$pkgjson" | jq --raw-output '.[] | [.name, .version] | join("%s")')
+
+  uu-printf "$MAINSTEP" "Starting pip user upgrades..."
+  if [ "$pkgcount" -eq 0 ]
+  then
+    uu-printf "All pip packages are up to date!\n"
+    return 0
+  fi
+
+  # Nicely print and format all packages
+  uu-printf "\n\033[0;1mPackages (%s) \033[0;0m" "$pkgcount"
+  indent_width=$(uu-printf "Packages (%s) " "$pkgcount" | wc --chars)
+  current_width=$indent_width
+  terminal_width=$(tput cols)
+  for pkg in $pkgversions
+  do
+    # Format as: '<pkgname>-<pkgversion> ' while '-<pkgversion>' is greyed out
+    to_print=$(uu-printf -- "%s${RESET} " "$(uu-printf -- "$pkg" "%s" | sd '%s' "${GREY}-")")
+    print_width=$(( $(uu-printf -- "$pkg " "-" | wc --chars) ))
+    # If printing this would cause a line break, make a manual line break and indent next line
+    if [ $(( "$print_width" + "$current_width" )) -ge "$terminal_width" ]
+    then
+      printf "\n%0${indent_width}s"
+      current_width=0
+    fi
+    # Print out package name and version
+    uu-printf -- "$to_print"
+    # Prepare for next loop
+    current_width=$(( "$current_width" + "$print_width" ))
+  done
+
+  # After displaying all packages, ask the user to proceed.
+  # Accept 'Y', 'y', 'Yes', 'yes', 'YES' and '<ENTER>' as a continue and everything else as abort
+  uu-printf -- "\n\n$INPUT" "Proceed with installation? [Y/n] "
+  read -r choice
+  if ! [[ "$choice" =~ [Yy(Yes|yes)] ]] && [ -n "$choice" ]
+  then
+    return 1
+  fi
+
+  # Upgrade all packages individually
+  idx=1
+  for pkg in $pkglist
+  do
+    # Show currently upgrading package...
+    # Formatted as: '==> Upgrading <pkgname> (<number>/<total packages>)...'
+    uu-printf "${GREEN}${BOLD}==>${RESET}${BOLD} Upgrading %s ($idx/$pkgcount)...${RESET}\n" "$pkg"
+    if ! pip install --user --upgrade --compile "$pkg"
+    then
+      uu-printf "$ERROR" "Updating '$pkg' failed!"
+      return 1
+    fi
+    idx=$(( "$idx" + 1 ))
+  done
 }
 
 heading "Syncinc pacman packages and updating archlinux-keyring..."
@@ -108,5 +197,16 @@ if which cargo &> /dev/null;then
     exit 1
   fi
   uu-printf "$SUCCESS" "Updated cargo crates!"
+fi
+
+if which pip &> /dev/null
+then
+  heading "Updating pip packages..."
+  if ! upgrade_pip
+  then
+    uu-printf "$ERROR" "Error updating pip packages!"
+    exit 1
+  fi
+  uu-printf "$SUCCESS" "Updated pip packages!"
 fi
 
