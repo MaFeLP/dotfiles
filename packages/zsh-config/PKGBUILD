@@ -1,7 +1,7 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='zsh-config'
-pkgver='1.0.1'
-pkgrel='2'
+pkgver='1.0.2'
+pkgrel='1'
 pkgdesc='My personal ZSH configurations'
 arch=('any')
 url='https://github.com/mafelp/dotfiles'
@@ -17,7 +17,7 @@ depends=(
 )
 makedepends=()
 source=("files.tar.gz")
-sha256sums=("df6109065f001efafd5ac1205800ffc7b75ee0f221cd9a198e5d9e8720f8b371")
+sha256sums=("6329adc3b6bec6785773f15983c33b5d9f903b827e1e82b852efb862b3b938dd")
 install="${pkgname}.install"
 
 package() {
