@@ -23,14 +23,15 @@ function heading {
 
   local text=$1
   # prints '#' for a whole line
-  python3 -c "print('\033[0;2m\033[0;96m#' * ${width})"
+  printf "${GREEN}%${width}.c\n" ' ' | sd ' ' '#'
 
   # centers the text
+  #TODO replace with printf expression
   python3 -c "print(' ' * ((${width} - ${#text}) // 2), end='')"
   echo "$text"
 
   # prints '#' for a whole line
-  python3 -c "print('#' * ${width} + '\033[0;0m\033[0;2m')"
+  printf "%${width}.c\n${RESET}" ' ' | sd ' ' '#'
 }
 
 function install_firefox_nightly {
