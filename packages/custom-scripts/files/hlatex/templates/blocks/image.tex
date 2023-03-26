@@ -1,0 +1,6 @@
+{%- match options %}
+  {%- when Some with (opt) -%}
+\includegraphics[{{ opt.scale }}{{ opt.width }}{{ opt.height }}]{ {{-path-}} }
+  {%- when None -%}
+\includegraphics{ {{-path-}} }
+{%- endmatch -%}

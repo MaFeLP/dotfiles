@@ -1,0 +1,15 @@
+"\\usepackage";
+
+option of capture {
+  "[";
+  any of <char>;
+  "]";
+}
+
+"{";
+
+capture packagename {
+  some of <alphanumeric>;
+}
+
+"}";

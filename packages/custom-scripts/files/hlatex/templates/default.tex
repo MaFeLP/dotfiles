@@ -1,0 +1,105 @@
+\documentclass[a4paper]{scrartcl}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                              Import Packages                              %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[margin=60pt]{geometry}
+\usepackage[ngerman]{babel}
+\usepackage{multicol}
+\usepackage{csquotes}
+\usepackage{xcolor}
+\usepackage[version=4]{mhchem}
+\usepackage{chemfig}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\usepackage{tikz}
+
+% Use hyperlinks in the table of contents
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                               Informations                                %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{ {{- title -}} }
+\author{ {{- author -}} }
+{%- match date %}
+  {%- when crate::templates::default_template::DateConfig::Today %}
+\date{\today}
+  {%- when crate::templates::default_template::DateConfig::Other with (val) %}
+\date{ {{- val -}} }
+{%- endmatch %}
+\pdfinfo{
+  /Title    ({{ title }})
+  /Author   ({{ author }})
+  /Creator  ({{ author }})
+  /Producer ({{ author }})
+  /Subject  ({{ subjects|join(", ") }})
+  /Keywords ({{ keywords|join(", ") }})
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                            Header and Footer                              %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[singlespacing=true]{scrlayer-scrpage}
+{%- match header.left %}
+  {%- when Some with (val) %}
+\lohead{ {{- val -}} }
+  {%- when None %}
+{%- endmatch %}
+{%- match header.center %}
+  {%- when Some with (val) %}
+\chead{ {{- val -}} }
+  {%- when None %}
+{%- endmatch %}
+{%- match header.right %}
+  {%- when Some with (val) %}
+\rohead{ {{- val -}} }
+  {%- when None %}
+{%- endmatch %}
+{%- match footer.left %}
+  {%- when Some with (val) %}
+\lofoot{ {{- val -}} }
+  {%- when None %}
+{%- endmatch %}
+{%- match footer.center %}
+  {%- when Some with (val) %}
+\cfoot{ {{- val -}} }
+  {%- when None %}
+{%- endmatch %}
+{%- match footer.right %}
+  {%- when Some with (val) %}
+\rofoot{ {{- val -}} }
+  {%- when None %}
+{%- endmatch %}
+%\setlength{\headheight}{0.5in}
+
+{% match macros -%}
+  {%- when Some with (m) %}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                 Macros                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    {%- if m.mkline %}
+\newcommand{\mkline}{\begin{center}\rule{0.5\textwidth}{0.4pt}\end{center}}
+    {%- endif %}
+  {%- when None %}
+{%- endmatch %}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                Document                                   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\maketitle
+\tableofcontents
+\clearpage
+
+\end{document}
+

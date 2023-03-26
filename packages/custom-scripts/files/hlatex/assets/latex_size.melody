@@ -1,0 +1,35 @@
+let .factor = {
+  either {
+    capture {
+      option of <digit>;
+      ".";
+      some of <digit>;
+    }
+
+    some of <digit>;
+  }
+}
+
+either {
+  capture {
+    .factor;
+    either {
+      "pt";
+      "mm";
+      "cm";
+      "in";
+      "ex";
+      "em";
+      "mu";
+      "sp";
+    }
+  }
+
+  capture {
+    .factor;
+    either {
+      "\\textwidth";
+      "\\linewidth";
+    }
+  }
+}

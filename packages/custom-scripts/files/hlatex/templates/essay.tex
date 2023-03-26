@@ -1,0 +1,82 @@
+\documentclass[12pt]{scrartcl} % set the font size to 12pt
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                              Import Packages                              %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[utf8]{inputenc}
+\usepackage[letterpaper,margin=1in]{geometry} % Set paper size to US-Letter
+\usepackage{csquotes} % Enable quotes
+\usepackage[backend=biber,style=mla]{biblatex}
+\usepackage{setspace} % double space the whole document, as required by layout
+\usepackage{eurosym}
+
+\usepackage[english]{babel}
+\babelhyphenation[english]{welt-weit}
+
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                               Informations                                %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\title{ {{- title -}} }
+\author{ {{- author -}} }
+\date{ {{- date|safe -}} }
+\pdfinfo{
+  /Title    ({{ title }})
+  /Author   ({{ author }})
+  /Creator  ({{ author }})
+  /Producer ({{ author }})
+  /Subject  ({{ subjects|join(", ") }})
+  /Keywords ({{ keywords|join(", ") }})
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                 Header                                    %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[singlespacing=true]{scrlayer-scrpage}
+\ohead{\textnormal{ {{- author_last_name -}} } \pagemark}
+\cfoot{}
+\setlength{\headheight}{0.5in}
+
+\bibliography{essay}
+\doublespacing
+\setlength{\parindent}{0.5in}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%                                Document                                   %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\begin{flushleft}
+  {{ author }}\\
+  {{ professor }}\\
+  {{ course }}\\
+  \today\\
+\end{flushleft}
+
+\begin{center}
+  {{ title }}
+\end{center}
+
+% use '\autocite[<page number>]{<bibliography key>}' to automatically cite one bibliography item
+%
+% to cite multiple items from the bibliography use the following syntax:
+%
+% (<author 1> <page numbers 1>; <author 2> <page numbers 2>; ...)
+%\nocite{<bibliography key 1>}
+%\nocite{<bibliography key 2>}
+
+\clearpage
+\begin{center}
+  Works Cited
+\end{center}
+\printbibliography[heading=none]
+
+\end{document}
+

@@ -1,0 +1,4 @@
+[[escaper]]
+path = "crate::tex_escape::Tex"
+extensions = ["tex"]
+
