@@ -34,3 +34,9 @@ More File explorer mappings under `:help nvim-tree-default-mappings`
 - `fb`: Search active windows/buffers
 - `fh`: Help tags
 
+#### Folding
+- `zo`: Open current fold
+- `zc`: Close current fold
+- `zO`: Open all folds
+- `zC`: Close all folds
+
