@@ -54,9 +54,10 @@ require'lspconfig'.jsonls.setup {
 }
 
 -- Java
---require'lspconfig'.java_language_server.setup{
---  cmd = "/usr/bin/java-language-server"
---}
+require'lspconfig'.java_language_server.setup{
+  cmd = { "/usr/bin/java-language-server" },
+  capabilities = capabilities,
+}
 
 -- JavaScript & Typescript files
 vim.g.markdown_fenced_languages = { "ts=typescript" }
