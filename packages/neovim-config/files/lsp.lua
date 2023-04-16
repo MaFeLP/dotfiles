@@ -71,7 +71,7 @@ require'lspconfig'.texlab.setup{
 }
 
 -- Lua
-require'lspconfig'.sumneko_lua.setup{
+require'lspconfig'.lua_ls.setup{
   capabilities = capabilities,
 }
 
