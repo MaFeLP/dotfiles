@@ -1,21 +1,22 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='custom-scripts'
-pkgver='1.3.0'
+pkgver='1.4.0'
 pkgrel='1'
 pkgdesc='Some personal scripts I have written'
 arch=('any')
 url='https://github.com/mafelp/dotfiles'
 license=('GPL3')
 depends=(
+  'coreutils'
   'github-cli'
   'jq'
   'libnewt'
   'openssh'
   'pacman'
   'python3'
-  'coreutils'
-  'uutils-coreutils'
+  'rebuild-detector'
   'texlive-core'
+  'uutils-coreutils'
   'zsh'
 )
 optdepends=(
@@ -28,7 +29,7 @@ makedepends=(
   'cargo'
 )
 source=("files.tar.gz")
-sha256sums=("0f61f74a0281d7f2ab3d42c075840089bdaa1515ffda29c365d0ede4425d7e3e")
+sha256sums=("30f296a57c5f653da4fdb8f7087f2ac0468382042d3e312fc79af92e0d6b22df")
 
 prepare() {
   cd "${srcdir}/files/hlatex"

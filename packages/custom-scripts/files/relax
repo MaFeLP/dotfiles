@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC2059
 
 RESET="$(tput sgr0)"
 BOLD="$(tput bold)"
@@ -12,9 +13,10 @@ SUCCESS="\n${BOLD}${GREEN}%s${RESET}\n\n"
 ERROR="\n${BOLD}${RED}%s${RESET}\n"
 
 MAINSTEP="${BOLD}${BLUE}:: ${RESET}${BOLD}%s${RESET}\n"
+STEP="${BOLD}${GREEN}==> ${RESET}${BOLD}%s${RESET}\n"
 INPUT="${BOLD}${YELLOW}:: ${RESET}${BOLD}%s${RESET}"
 
-readonly RESET BOLD BLUE GREEN RED YELLOW SUCCESS ERROR MAINSTEP INPUT
+readonly RESET BOLD BLUE GREEN RED YELLOW SUCCESS ERROR MAINSTEP INPUT STEP
 
 function heading {
   local width
@@ -46,6 +48,74 @@ function install_firefox_nightly {
   sudo pacman --color=auto -U ./*.pkg.tar.zst --noconfirm
   cd "$current" || exit 1
   rm -rf "$dir"
+}
+
+function rebuild_aur_packages {
+  local tmpfile
+  local line
+  local package
+  local packages
+  local packages_reasons
+  local name
+  local idx
+
+  printf "$STEP" "Checking incompatible packages with 'checkrebuild'..."
+  tmpfile=$(mktemp)
+  if ! checkrebuild > "$tmpfile"
+  then
+    printf "$ERROR" "Could not check for rebuild of packages!"
+    exit 1
+  fi
+
+  printf "$STEP" "Checking install reasons for packages..."
+  packages=()
+  packages_reasons=()
+  while read -r line
+  do
+    if [[ "$line" =~ ^foreign ]]
+    then
+      package="$(printf "%s" "$line" | cut -c9-)"
+      name="$(pacman -Qi "$package" | grep 'Name' | cut -c19-)"
+
+      if [ "$name" = "firefox-nightly-bin" ]
+      then
+        continue
+      fi
+
+      packages+=("$name")
+
+      case "$(pacman -Qi "$package" | grep 'Install Reason' | cut -c19-)" in
+        "Installed as a dependency for another package")
+          packages_reasons+=("--asdeps")
+          ;;
+        "Explicitly installed")
+          packages_reasons+=("--asexplicit")
+          ;;
+        *)
+           printf "$ERROR" "Could not match install reason!"
+           exit 1
+           ;;
+      esac
+    fi
+  done < "$tmpfile"
+
+  if [ ${#packages[@]} -eq 0 ]
+  then
+    printf "No packages need to be rebuilt!\n"
+  fi
+
+  printf "$STEP" "Updating packages with buildaur..."
+  buildaur -S "${packages[@]}"
+
+  printf "$STEP" "Setting install reasons for packages..."
+  idx=0
+  for package in "${packages[@]}"; do
+    sudo pacman -D "${packages_reasons[$idx]}" "$package"
+
+    idx=$((idx++))
+  done
+
+  rm "$tmpfile"
 }
 
 function upgrade_pip {
@@ -155,6 +225,12 @@ if which buildaur &> /dev/null;then
   if ! buildaur -Syu
   then
     uu-printf "$ERROR" "Error updating aur packages!"
+    exit 1
+  fi
+  heading "Rebuilding incompatible packages ..."
+  if ! rebuild_aur_packages
+  then
+    uu-printf "$ERROR" "Error rebuilding incompatible packages!"
     exit 1
   fi
   uu-printf "$MAINSTEP" "Clearing package cache..."
