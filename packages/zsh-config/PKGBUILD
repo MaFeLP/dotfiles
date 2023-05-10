@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='zsh-config'
-pkgver='1.0.2'
+pkgver='1.0.3'
 pkgrel='1'
 pkgdesc='My personal ZSH configurations'
 arch=('any')
@@ -17,7 +17,7 @@ depends=(
 )
 makedepends=()
 source=("files.tar.gz")
-sha256sums=("6329adc3b6bec6785773f15983c33b5d9f903b827e1e82b852efb862b3b938dd")
+sha256sums=("16e36393e281b7ac0643ed88926acc33fad635169d1b4e00626015badb5fbedd")
 install="${pkgname}.install"
 
 package() {

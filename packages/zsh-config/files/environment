@@ -43,3 +43,7 @@ export XCURSOR_PATH=/usr/share/icons:"$XDG_DATA_HOME"/icons
 
 # Enable Wayland on Firefox and thunderbird
 export MOZ_ENABLE_WAYLAND=1
+
+# Disable cowsay for ansible
+ANSIBLE_NOCOWS=1
+
