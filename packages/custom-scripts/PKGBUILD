@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='custom-scripts'
-pkgver='1.2.0'
+pkgver='1.3.0'
 pkgrel='1'
 pkgdesc='Some personal scripts I have written'
 arch=('any')
@@ -24,8 +24,22 @@ optdepends=(
   'rustup: Update rust toolchain with "relax"'
   'snapd: Update snap packages with "relax"'
 )
+makedepends=(
+  'cargo'
+)
 source=("files.tar.gz")
 sha256sums=("0f61f74a0281d7f2ab3d42c075840089bdaa1515ffda29c365d0ede4425d7e3e")
+
+prepare() {
+  cd "${srcdir}/files/hlatex"
+  cargo fetch --locked --target "$CARCH-unknown-linux-gnu"
+}
+
+build() {
+  cd "${srcdir}/files/hlatex"
+  cargo build --release --frozen
+  gzip "target/mandir/hlatex.1"
+}
 
 package() {
   cd "${srcdir}/files"
@@ -42,4 +56,12 @@ package() {
   for patch in $(find . -name '*.patch');do
     install -Dm755 "$patch" "${pkgdir}/etc/buildaur/patches/$patch"
   done
+
+  cd "${srcdir}/files/hlatex/target/"
+  install -Dm755 "release/hlatex" "${pkgdir}/usr/bin/hlatex"
+  install -Dm755 "mandir/hlatex.1.gz" "${pkgdir}/usr/share/man/man1/hlatex.1.gz"
+  install -Dm755 "completions/_hlatex" "${pkgdir}/usr/share/zsh/site-functions/_hlatex"
+  install -Dm755 "completions/hlatex.bash" "${pkgdir}/etc/bash_completion.d/hlatex.bash"
+  install -Dm755 "completions/hlatex.fish" "${pkgdir}/usr/share/fish/completions/hlatex.fish"
+
 }
