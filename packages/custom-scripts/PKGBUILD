@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='custom-scripts'
-pkgver='1.1.0'
+pkgver='1.2.0'
 pkgrel='1'
 pkgdesc='Some personal scripts I have written'
 arch=('any')
@@ -24,14 +24,22 @@ optdepends=(
   'rustup: Update rust toolchain with "relax"'
   'snapd: Update snap packages with "relax"'
 )
-makedepends=()
 source=("files.tar.gz")
-sha256sums=("7db06f210fdec0d956014ced2ad34e35accc5eb45a53e182a4ffb77691a0bb7b")
+sha256sums=("0f61f74a0281d7f2ab3d42c075840089bdaa1515ffda29c365d0ede4425d7e3e")
 
 package() {
   cd "${srcdir}/files"
 
-  for f in *;do
-    install -Dm755 $f "${pkgdir}/usr/bin/$f"
+  for f in "ghdl" "img-convert" "relax";do
+    install -Dm755 "$f" "${pkgdir}/usr/bin/$f"
+  done
+
+  cd "${srcdir}/files/buildaur/hooks"
+  for hook in ./*;do
+    install -Dm755 "$hook" "${pkgdir}/etc/buildaur/prehooks/$hook"
+  done
+  cd "${srcdir}/files/buildaur/patches"
+  for patch in $(find . -name '*.patch');do
+    install -Dm755 "$patch" "${pkgdir}/etc/buildaur/patches/$patch"
   done
 }

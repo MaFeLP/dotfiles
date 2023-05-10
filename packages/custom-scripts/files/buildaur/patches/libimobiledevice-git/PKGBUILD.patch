@@ -1,0 +1,12 @@
+diff --git a/PKGBUILD b/PKGBUILD
+index 2112ebd..ea81441 100644
+--- a/PKGBUILD
++++ b/PKGBUILD
+@@ -41,6 +41,7 @@ pkgver() {
+ prepare() {
+ 	cd libimobiledevice
+ 	NOCONFIGURE=1 ./autogen.sh
++    git apply --verbose "/etc/buildaur/patches/libimobiledevice-git/0001-fix-timeout.patch"
+ }
+ 
+ build() {

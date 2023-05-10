@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+. ./PKGBUILD
+
+# Create a patch for the PKGBUILD:
+# git diff --output /etc/buildaur/patches/${pkgname}/PKGBUILD.patch
+
+if [ -e "/etc/buildaur/patches/${pkgname}/PKGBUILD.patch" ]
+then
+  printf " \`-> Patch file found for '${pkgname}'!\n"
+  patch -p0 PKGBUILD < "/etc/buildaur/patches/${pkgname}/PKGBUILD.patch"
+else
+  printf " \`-> No patch file found for '%s'\n" "${pkgname}"
+fi
+

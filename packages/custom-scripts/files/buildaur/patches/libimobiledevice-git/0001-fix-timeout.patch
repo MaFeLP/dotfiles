@@ -1,0 +1,26 @@
+diff --git a/src/property_list_service.c b/src/property_list_service.c
+index 4654b6e..3c1d3a2 100644
+--- a/src/property_list_service.c
++++ b/src/property_list_service.c
+@@ -269,7 +269,7 @@ LIBIMOBILEDEVICE_API property_list_service_error_t property_list_service_receive
+ 
+ LIBIMOBILEDEVICE_API property_list_service_error_t property_list_service_receive_plist(property_list_service_client_t client, plist_t *plist)
+ {
+-	return internal_plist_receive_timeout(client, plist, 30000);
++	return internal_plist_receive_timeout(client, plist, 90000);
+ }
+ 
+ LIBIMOBILEDEVICE_API property_list_service_error_t property_list_service_enable_ssl(property_list_service_client_t client)
+diff --git a/src/service.c b/src/service.c
+index 6c9d109..400de91 100644
+--- a/src/service.c
++++ b/src/service.c
+@@ -176,7 +176,7 @@ LIBIMOBILEDEVICE_API service_error_t service_receive_with_timeout(service_client
+ 
+ LIBIMOBILEDEVICE_API service_error_t service_receive(service_client_t client, char* data, uint32_t size, uint32_t *received)
+ {
+-	return service_receive_with_timeout(client, data, size, received, 30000);
++	return service_receive_with_timeout(client, data, size, received, 90000);
+ }
+ 
+ LIBIMOBILEDEVICE_API service_error_t service_enable_ssl(service_client_t client)
