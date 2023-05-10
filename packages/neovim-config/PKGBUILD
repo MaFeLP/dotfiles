@@ -1,12 +1,13 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='neovim-config'
-pkgver='1.0.7'
+pkgver='1.0.9'
 pkgrel='1'
 pkgdesc='My personal neovim configurations'
 arch=('any')
 url='https://github.com/mafelp/dotfiles'
 license=('GPL3')
 depends=(
+  'curl'  # For Grammar Checking with LanguageTool
   'neovim'
   'python-pynvim'
   'nvim-packer-git'
@@ -41,7 +42,7 @@ depends=(
 )
 makedepends=('fd')
 source=("files.tar.gz")
-sha256sums=("60a29013cd3487860d818c3a92345e88dfb3c295292ffdbd878a6200eb2bd946")
+sha256sums=("888b3c15c1ee81341de7214c5b488df8e111b654efce7b7a33629b027a4bea57")
 install="${pkgname}.install"
 
 package() {

@@ -37,6 +37,14 @@ return require('packer').startup(function(use)
   use 'hrsh7th/cmp-vsnip'
   use 'hrsh7th/vim-vsnip'
 
+  -- Spell Checking
+  -- fix error when loading the latest LanguageTool version
+  -- TODO: Fork and update to latest version
+  vim.g.grammarous_jar_url = 'https://www.languagetool.org/download/LanguageTool-5.9.zip'
+  use {
+    'rhysd/vim-grammarous',
+  }
+
   -- Colorschemes
 --  use {
 --    'dracula/vim',

@@ -17,6 +17,8 @@ opt.list = true
 -- Only enable special characters in non TTYs
 if not string.match(os.getenv("TTY") or "", "/dev/tty[0-9]+") then
   opt.listchars="eol:⏎,tab:⇥ ,trail:␠,space:⸳"
+else
+  opt.listchars="eol: ,tab: ,trail: ,space: "
 end
 
 -- Enable powerline fonts for the status bar

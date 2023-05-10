@@ -1,6 +1,9 @@
 -- Add install dir of package to the execution path
 package.path = package.path..";/usr/share/neovim-config/?.lua"
 
+-- Set the leader key
+vim.g.mapleader = " "
+
 -- Other config files
 require 'plug'
 require 'keys'
@@ -28,6 +31,7 @@ require'nvim-treesitter.configs'.setup{
   auto_install = true,  -- install modules, when entering a buffer
   highlight = {
     enable = true,
+    disable = { "markdown" },  -- NeoVim's built-in markdown highlither is somehow superior...
   },
 }
 
