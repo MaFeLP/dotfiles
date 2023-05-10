@@ -1,7 +1,11 @@
 /packages/**/pkg/
 /packages/**/src/
+/packages/**/target/
 /packages/**/*.tar.zst
 /packages/**/*.tar.gz
 
+!/packages/custom-scripts/files/hlatex/src/
+
 # Temporary
 packages/custom-scripts/files/gnome-keyring-daemon-wrapper.sh
+

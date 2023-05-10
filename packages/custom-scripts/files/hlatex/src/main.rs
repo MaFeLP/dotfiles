@@ -1,6 +1,6 @@
 use crate::{clean::clean, compile::compile};
 use dialoguer::{
-    console::{Style, Term},
+    console::Term,
     theme::ColorfulTheme,
     Completion, Select,
 };

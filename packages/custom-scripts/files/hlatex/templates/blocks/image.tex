@@ -1,6 +1,24 @@
-{%- match options %}
-  {%- when Some with (opt) -%}
-\includegraphics[{{ opt.scale }}{{ opt.width }}{{ opt.height }}]{ {{-path-}} }
+{%- match figure -%}
+  {%- when Some with (fig) -%}
+\begin{figure}[H]
+  {%- if fig.centering %}
+  \centering
+  {%- endif %}
+    {%- match options %}
+      {%- when Some with (opt) -%}
+  \includegraphics[{{ opt.scale }}{{ opt.width }}{{ opt.height }}]{ {{-path-}} }
+      {%- when None -%}
+  \includegraphics{ {{-path-}} }
+    {%- endmatch -%}
+  \caption{ {{- fig.caption -}} }
+  \label{ {{- fig.label -}} }
+\end{figure}
   {%- when None -%}
+    {%- match options %}
+      {%- when Some with (opt) -%}
+\includegraphics[{{ opt.scale }}{{ opt.width }}{{ opt.height }}]{ {{-path-}} }
+      {%- when None -%}
 \includegraphics{ {{-path-}} }
+    {%- endmatch -%}
 {%- endmatch -%}
+
