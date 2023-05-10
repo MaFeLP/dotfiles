@@ -157,6 +157,12 @@ if which buildaur &> /dev/null;then
     uu-printf "$ERROR" "Error updating aur packages!"
     exit 1
   fi
+  uu-printf "$MAINSTEP" "Clearing package cache..."
+  if ! yes | buildaur --clear
+  then
+    uu-printf "$ERROR" "Error clearing the package cache!"
+    exit 1
+  fi
   uu-printf "$SUCCESS" "Updated AUR packages!"
 fi
 
@@ -209,5 +215,16 @@ then
     exit 1
   fi
   uu-printf "$SUCCESS" "Updated pip packages!"
+fi
+
+if which nvim &> /dev/null
+then
+  heading "Updating neovim plugins..."
+  if ! nvim -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  then
+    uu-printf "$ERROR" "Error updating neovim plugins!"
+    exit 1
+  fi
+  uu-printf "$SUCCESS" "Updated neovim plugins!"
 fi
 
