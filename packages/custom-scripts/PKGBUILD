@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='custom-scripts'
-pkgver='1.4.0'
+pkgver='1.5.0'
 pkgrel='1'
 pkgdesc='Some personal scripts I have written'
 arch=('any')
@@ -29,7 +29,7 @@ makedepends=(
   'cargo'
 )
 source=("files.tar.gz")
-sha256sums=("30f296a57c5f653da4fdb8f7087f2ac0468382042d3e312fc79af92e0d6b22df")
+sha256sums=("366585ad6a26a8ab60ae50b182aa296728f1c4d38639e2f63689ca66b5993733")
 
 prepare() {
   cd "${srcdir}/files/hlatex"
@@ -45,7 +45,7 @@ build() {
 package() {
   cd "${srcdir}/files"
 
-  for f in "ghdl" "img-convert" "relax";do
+  for f in "ghdl" "img-convert" "relax" "mirrorlist-update";do
     install -Dm755 "$f" "${pkgdir}/usr/bin/$f"
   done
 
