@@ -1,48 +1,27 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='neovim-config'
-pkgver='1.0.9'
+pkgver='1.1.0'
 pkgrel='1'
 pkgdesc='My personal neovim configurations'
 arch=('any')
 url='https://github.com/mafelp/dotfiles'
 license=('GPL3')
 depends=(
-  'curl'  # For Grammar Checking with LanguageTool
+  'curl'  # Installing lazy.nvim
   'neovim'
   'python-pynvim'
-  'nvim-packer-git'
-  'tree-sitter'
-  'wl-clipboard'
+)
+optdepends=(
+  'npm: Installing language servers'
+  'cmake: Build language servers'
+  'gcc: Build treesitter parsers'
 
-  # Language Servers
-  'bash-language-server'
-  'clang'
-  'dart'
-  'deno'
-  'gopls'
-  'lua-language-server'
-  'pyright'
-  'rust-analyzer'
-  'texlab'
-  'vscode-css-languageserver'
-  'vscode-html-languageserver'
-  'vscode-json-languageserver'
-  'qt6-declarative'
-  'yaml-language-server'
-
-  # Language Servers from AUR
-  'cmake-language-server'
-  'dockerfile-language-server'
-  'java-language-server'
-  'sql-language-server'
-  
-  # Other additional dependencies for language Servers
-  'shellcheck'
-  'qt6-languageserver'
+  'unzip: Grammar Checking'
+  'jre-openjdk: Grammar Checking'
 )
 makedepends=('fd')
 source=("files.tar.gz")
-sha256sums=("888b3c15c1ee81341de7214c5b488df8e111b654efce7b7a33629b027a4bea57")
+sha256sums=("f4ef7346157d064d786681ddc288529c926958cc5d606e025c20fa7f391b8022")
 install="${pkgname}.install"
 
 package() {
@@ -52,3 +31,4 @@ package() {
     install -Dm644 "$f" "${pkgdir}/usr/share/neovim-config/$f"
   done
 }
+

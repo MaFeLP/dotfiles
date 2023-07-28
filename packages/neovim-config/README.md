@@ -1,4 +1,22 @@
 # NeoVim Configuration
+## General Information
+To update the system, run:
+
+```
+:Lazy sync
+```
+
+or from your shell:
+
+```bash
+nvim "+Lazy! sync" +qa
+```
+
+If you want to install a language server, use mason for this:
+
+```
+:Mason
+```
 
 ## Customizations
 ### Color Schemes
