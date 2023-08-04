@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='neovim-config'
-pkgver='1.1.0'
+pkgver='1.2.0'
 pkgrel='1'
 pkgdesc='My personal neovim configurations'
 arch=('any')
@@ -15,13 +15,23 @@ optdepends=(
   'npm: Installing language servers'
   'cmake: Build language servers'
   'gcc: Build treesitter parsers'
+  'luarocks: Build and run language servers'
+  'composer: Build and run language servers'
+  'php: Build and run language servers'
+  'rubygems: Build and run language servers'
+  'julia: Build and run language servers'
+  'gh: Raise rate limit in mason.nvim'
+  'tree-sitter: Build tree sitter parsers from source'
+
+  'wl-clipboard: Enable the clipboard on Wayland'
+  'xclip: Enable the clipboard on X11'
 
   'unzip: Grammar Checking'
   'jre-openjdk: Grammar Checking'
 )
 makedepends=('fd')
 source=("files.tar.gz")
-sha256sums=("f4ef7346157d064d786681ddc288529c926958cc5d606e025c20fa7f391b8022")
+sha256sums=("43a4f8f4518416ca7edee881e5570027bf0b7593b2fc72f9627723e89c5f7561")
 install="${pkgname}.install"
 
 package() {

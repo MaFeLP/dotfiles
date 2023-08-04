@@ -1,3 +1,6 @@
+require("mason").setup()
+require("mason-lspconfig").setup()
+
 -- NOTE:
 -- to enable C++ LSP with cmake, run the two following commands:
 --
