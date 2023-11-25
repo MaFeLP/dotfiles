@@ -12,6 +12,7 @@ depends=(
   'exa'
   'fd'
   'git'
+  'git-delta'  # Nice formatting for git diffs
   'jq'
   'neofetch'
   #'pandoc'
