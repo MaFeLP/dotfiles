@@ -104,24 +104,32 @@ require("lazy").setup({
 
   -- LSP Configs
   {
-    "williamboman/mason.nvim",
-    dependencies = {
-      {
-        "williamboman/mason-lspconfig.nvim",
-        config = function ()
-          -- Do not set up mason-lspconfig here, but instead after mason itself
-        end,
-      },
-      "neovim/nvim-lspconfig",
-      { -- Linter
-        "jose-elias-alvarez/null-ls.nvim",
-        dependencies = { "nvim-lua/plenary.nvim" },
-      },
-    },
+    'RubixDev/mason-update-all',
+    lazy = true,
+    cmd = "MasonUpdateAll",
     config = function ()
-      require 'lsp'
+      require('mason-update-all').setup()
     end,
-    lazy = false,
+    dependencies = {
+      "williamboman/mason.nvim",
+      dependencies = {
+        {
+          "williamboman/mason-lspconfig.nvim",
+          config = function ()
+            -- Do not set up mason-lspconfig here, but instead after mason itself
+          end,
+        },
+        "neovim/nvim-lspconfig",
+        { -- Linter
+          "jose-elias-alvarez/null-ls.nvim",
+          dependencies = { "nvim-lua/plenary.nvim" },
+        },
+      },
+      config = function ()
+        require 'lsp'
+      end,
+      lazy = false,
+    },
   },
 
   -- Formatter

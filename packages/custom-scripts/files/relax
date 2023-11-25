@@ -296,9 +296,22 @@ fi
 if which nvim &> /dev/null
 then
   heading "Updating neovim plugins..."
-  if ! nvim -c 'autocmd User PackerComplete quitall' -c 'PackerSync'
+  uu-printf "$STEP" "Updating plugins with Lazy..."
+  if ! nvim -c 'autocmd User LazyUpdate quitall' -c 'autocmd User VeryLazy Lazy update'
   then
     uu-printf "$ERROR" "Error updating neovim plugins!"
+    exit 1
+  fi
+  uu-printf "$STEP" "Updating language servers, linters, formatters with Mason..."
+  if ! nvim -c 'autocmd User MasonUpdateAllComplete quitall' -c 'autocmd User VeryLazy MasonUpdateAll'
+  then
+    uu-printf "$ERROR" "Error updating neovim language servers, linters and formatter!"
+    exit 1
+  fi
+  uu-printf "$STEP" "Updating Highlighters with TreeSitter..."
+  if ! nvim -c 'autocmd User VeryLazy lua require("nvim-treesitter.install").update({ with_sync = true })(); vim.cmd(":q")'
+  then
+    uu-printf "$ERROR" "Error updating neovim language servers, linters and formatter!"
     exit 1
   fi
   uu-printf "$SUCCESS" "Updated neovim plugins!"

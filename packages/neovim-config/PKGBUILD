@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='neovim-config'
-pkgver='1.2.0'
+pkgver='1.3.0'
 pkgrel='1'
 pkgdesc='My personal neovim configurations'
 arch=('any')
@@ -31,7 +31,7 @@ optdepends=(
 )
 makedepends=('fd')
 source=("files.tar.gz")
-sha256sums=("43a4f8f4518416ca7edee881e5570027bf0b7593b2fc72f9627723e89c5f7561")
+sha256sums=("2b3a2170348fe601efeb7b175525e7a2adb721d5b4eacdea8f20f58a9138114c")
 install="${pkgname}.install"
 
 package() {

@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='custom-scripts'
-pkgver='1.6.0'
+pkgver='1.7.0'
 pkgrel='1'
 pkgdesc='Some personal scripts I have written'
 arch=('any')
@@ -29,7 +29,7 @@ makedepends=(
   'cargo'
 )
 source=("files.tar.gz")
-sha256sums=("859d0d1967843033d77ea000d71bdf1f20ac285a3364a575227c5c9991b0e14f")
+sha256sums=("469b3b71c4d7e1b2f7cac1dbe4eea61a92d2ef1e30046b2ec7c863b265e4990f")
 
 prepare() {
   cd "${srcdir}/files/hlatex"
