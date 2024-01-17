@@ -21,12 +21,12 @@ function server() {
   # Create listening pipe
   if ! [ -e "$PIPE" ];then
     echo "Creating pipe at $PIPE..."
-    mkfifo "$PIPE"
+    uu-mkfifo "$PIPE"
   fi
 
   # Start the actual execution loop
   while true;do
-    tempfile=$(mktemp)
+    tempfile=$(uu-mktemp)
     echo "Creating temporary exec file \"$tempfile\"..."
     cat <<EOF > "$tempfile"
 #!/usr/bin/env bash
@@ -37,10 +37,10 @@ EOF
     echo "Listening for new exec commands..."
     cat "$PIPE" >> "$tempfile"
     echo "/usr/bin/rm \"$tempfile\"" >> "$tempfile"
-    bat "$tempfile"
-    chmod +x "$tempfile"
+    bat --paging=never "$tempfile"
     echo "Executing query..."
-    /usr/bin/bash "$tempfile" &> /dev/null &
+    # Execute the command with no hangups, don't print any output, and fork from current process
+    /usr/bin/uu-nohup /usr/bin/bash "$tempfile" &> /dev/null & disown
     echo ""
   done
 }

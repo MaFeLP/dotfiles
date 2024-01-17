@@ -1,0 +1,15 @@
+[Desktop Entry]
+Comment=Shut the Fuck Up
+Exec=/usr/bin/stfu --daemon
+GenericName[en_US]=Execute programs without cluttering the terminal
+GenericName=Execute programs without cluttering the terminal
+Icon=dialog-scripts
+MimeType=
+Name[en_US]=stfu
+Name=stfu
+Path=/tmp
+StartupNotify=false
+Terminal=false
+TerminalOptions=
+Type=Application
+X-KDE-AutostartScript=true

@@ -1,8 +1,11 @@
 post_install() {
     cat <<EOF
 
-To enable the STFU daemon for you user run the following command:
+Enable stfu in TTY-Only mode
 systemctl --user enable stfu.service --now
+
+Enable stfu for a desktop
+ln -sf /usr/share/stfu/stfu.desktop ~/.config/autostart/stfu.desktop
 EOF
 }
 
