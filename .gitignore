@@ -1,3 +1,4 @@
+/packages/**/.idea/
 /packages/**/pkg/
 /packages/**/src/
 /packages/**/target/
