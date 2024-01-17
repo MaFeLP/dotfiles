@@ -40,7 +40,7 @@ pub(crate) fn compile(
     no_multirun: bool,
     term: &Term,
     theme: &dyn Theme,
-) -> Result<(), std::io::Error> {
+) -> dialoguer::Result<()> {
     let filename = file
         .into_os_string()
         .into_string()
@@ -66,7 +66,7 @@ pub(crate) fn compile(
     Ok(())
 }
 
-pub(crate) fn run(term: &Term, theme: &dyn Theme) -> Result<(), std::io::Error> {
+pub(crate) fn run(term: &Term, theme: &dyn Theme) -> dialoguer::Result<()> {
     let completions = TexFilesCompletion::new()?;
     let file = PathBuf::from(
         Input::with_theme(theme)

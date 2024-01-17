@@ -1,4 +1,3 @@
-use std::io::Error;
 use crate::templates::{blocks::Package, Templateable};
 use askama::Template;
 use dialoguer::{console::Term, theme::Theme, Confirm, Input};
@@ -38,7 +37,7 @@ impl RequiredPackages for Image {
 }
 
 impl Templateable for Image {
-    fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, std::io::Error>
+    fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self>
     where
         Self: Sized,
     {
@@ -75,7 +74,7 @@ impl Templateable for Image {
 }
 
 impl Templateable for ImageOptions {
-    fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, std::io::Error>
+    fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self>
     where
         Self: Sized,
     {
@@ -125,7 +124,7 @@ impl Templateable for ImageOptions {
 }
 
 impl Templateable for ImageFigure {
-    fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, Error> where Self: Sized {
+    fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self> where Self: Sized {
         let caption = Input::with_theme(theme)
             .with_prompt("Image caption: ")
             .interact_text_on(&term)?;

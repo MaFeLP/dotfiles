@@ -52,7 +52,7 @@ impl Completion for TexFilesCompletion {
     }
 }
 
-fn main() -> Result<(), std::io::Error> {
+fn main() -> dialoguer::Result<()> {
     let cli = Cli::parse();
     let term = Term::buffered_stderr();
     let theme = ColorfulTheme::default();

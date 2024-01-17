@@ -1,4 +1,3 @@
-use std::io::Error;
 use super::Templateable;
 use askama::Template;
 use dialoguer::{console::Term, theme::Theme, Input};
@@ -16,7 +15,7 @@ pub struct DefaultTemplate {
 const DEFAULT_LANGUAGE_CODE: &'static str = "de";
 
 impl Templateable for DefaultTemplate {
-    fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, Error> where Self: Sized {
+    fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self> where Self: Sized {
         let title: String = Input::with_theme(theme)
             .with_prompt("Title")
             .interact_text_on(&term)?;

@@ -15,7 +15,7 @@ pub(crate) struct Makefile {
 }
 
 impl Templateable for Makefile {
-    fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, std::io::Error>
+    fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self>
     where
         Self: Sized,
     {
@@ -59,7 +59,7 @@ pub(crate) fn run(
     _template: Option<String>,
     term: &Term,
     theme: &dyn Theme,
-) -> Result<(), std::io::Error> {
+) -> dialoguer::Result<()> {
     let file = match file {
         Some(f) => f,
         None => {

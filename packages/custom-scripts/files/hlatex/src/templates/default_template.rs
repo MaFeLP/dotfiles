@@ -19,7 +19,7 @@ pub struct DefaultTemplate {
 pub(crate) const BLANK_TO_CONTINUE: &'static str = "leave blank to continue";
 
 impl Templateable for DefaultTemplate {
-    fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, std::io::Error>
+    fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self>
     where
         Self: Sized,
     {
@@ -104,7 +104,7 @@ pub enum DateConfig {
 }
 
 impl Templateable for DateConfig {
-    fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, std::io::Error>
+    fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self>
     where
         Self: Sized,
     {
@@ -135,7 +135,7 @@ pub struct HeaderConfig {
 }
 
 impl Templateable for HeaderConfig {
-    fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, std::io::Error>
+    fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self>
     where
         Self: Sized,
     {
@@ -180,7 +180,7 @@ pub struct Macros {
 }
 
 impl Templateable for Macros {
-    fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, std::io::Error>
+    fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self>
     where
         Self: Sized,
     {

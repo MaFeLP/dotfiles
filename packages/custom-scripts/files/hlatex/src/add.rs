@@ -20,12 +20,12 @@ pub(crate) fn add(
     line: usize,
     term: &Term,
     theme: &dyn Theme,
-) -> Result<(), std::io::Error> {
+) -> dialoguer::Result<()> {
     if !file.is_file() {
-        return Err(io::Error::new(
+        return Err(dialoguer::Error::IO(io::Error::new(
             io::ErrorKind::NotFound,
             "File to write to not found!",
-        ));
+        )));
     }
     let (render, packages) = match block {
         "Image" => (
@@ -140,7 +140,7 @@ pub(crate) fn run(
     line: Option<usize>,
     term: &Term,
     theme: &dyn Theme,
-) -> Result<(), io::Error> {
+) -> dialoguer::Result<()> {
     let file = match file {
         Some(f) => f,
         None => {

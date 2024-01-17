@@ -6,7 +6,7 @@ pub(crate) const EXTENSIONS: [&'static str; 11] = [
     ".toc",
 ];
 
-pub(crate) fn clean(base_filename: &str, term: &Term, theme: &dyn Theme) -> std::io::Result<()> {
+pub(crate) fn clean(base_filename: &str, term: &Term, theme: &dyn Theme) -> dialoguer::Result<()> {
     let mut paths: Vec<PathBuf> = vec![];
 
     for path in std::fs::read_dir("./")? {
