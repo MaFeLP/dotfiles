@@ -2,3 +2,6 @@
 path = "crate::tex_escape::Tex"
 extensions = ["tex"]
 
+[[escaper]]
+path = "crate::typ_escape::Typ"
+extensions = ["typ"]

@@ -6,6 +6,7 @@ use std::{fs::File, io::Write};
 pub(crate) mod blocks;
 mod default_template;
 pub(crate) mod makefile;
+pub(crate) mod typst;
 
 pub(crate) trait Templateable {
     fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, std::io::Error>
@@ -25,7 +26,7 @@ pub fn run(
             let input: String = Input::with_theme(theme)
                 .with_prompt("File Name")
                 .validate_with(|input: &String| -> Result<(), &str> {
-                    if !input.ends_with(".tex") {
+                    if !input.ends_with(".tex") && !input.ends_with(".typ") {
                         return Err("Filename must end in '.tex'!");
                     }
                     if PathBuf::from(input).exists() {
@@ -35,12 +36,17 @@ pub fn run(
                 })
                 .interact_on(&term)?;
             PathBuf::from(input)
-        }
+        },
     };
     let mut output_file = File::create(&file)?;
     let output = match template {
         Some(t) => match t.to_ascii_lowercase().as_str() {
-            "default" => default_template::DefaultTemplate::create_template(&term, theme)?
+            "default-tex" => default_template::DefaultTemplate::create_template(&term, theme)?
+                .render()
+                .expect(
+                    "Rendering the template went wrong! Please create an issue on the bug tracker!",
+                ),
+            "default-typ" => typst::DefaultTemplate::create_template(&term, theme)?
                 .render()
                 .expect(
                     "Rendering the template went wrong! Please create an issue on the bug tracker!",
@@ -51,7 +57,8 @@ pub fn run(
             match Select::with_theme(theme)
                 .with_prompt("Which Template?")
                 .default(0)
-                .item("Default Template")
+                .item("Default Template (LaTeX)")
+                .item("Default Template (typst)")
                 .item("MLA Essay")
                 .item("Chemical Paper")
                 .interact_on(&term)?
@@ -59,8 +66,13 @@ pub fn run(
                 0 => default_template::DefaultTemplate::create_template(&term, theme)?
                     .render()
                     .expect(
-                    "Rendering the theme went wrong! Please create an issue on the bug tracker!",
+                    "Rendering the template went wrong! Please create an issue on the bug tracker!",
                 ),
+                1 => typst::DefaultTemplate::create_template(&term, theme)?
+                    .render()
+                    .expect(
+                        "Rendering the template went wrong! Please create an issue on the bug tracker!",
+                    ),
                 _ => "".to_string(),
             }
         }

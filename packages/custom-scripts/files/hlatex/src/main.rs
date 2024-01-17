@@ -11,6 +11,7 @@ mod cli;
 mod compile;
 mod templates;
 mod tex_escape;
+mod typ_escape;
 
 include!("cli.rs");
 
@@ -39,7 +40,7 @@ impl Completion for TexFilesCompletion {
             .files
             .iter()
             .filter(|option| option.starts_with(input))
-            .filter(|option| option.ends_with(".tex"))
+            .filter(|option| option.ends_with(".tex") || option.ends_with(".typ"))
             .collect::<Vec<_>>();
 
         if matches.len() == 1 {

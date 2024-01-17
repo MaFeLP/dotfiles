@@ -1,3 +1,4 @@
+use std::fmt::{Display, Formatter};
 use super::Templateable;
 use askama::Template;
 use dialoguer::{console::Term, theme::Theme, Confirm, Input, MultiSelect, Select};
@@ -15,13 +16,14 @@ pub struct DefaultTemplate {
     macros: Option<Macros>,
 }
 
+pub(crate) const BLANK_TO_CONTINUE: &'static str = "leave blank to continue";
+
 impl Templateable for DefaultTemplate {
     fn create_template(term: &Term, theme: &dyn Theme) -> Result<Self, std::io::Error>
     where
         Self: Sized,
     {
         let mut input = String::new();
-        const BLANK_TO_CONTINUE: &'static str = "leave blank to continue";
 
         let title: String = Input::with_theme(theme)
             .with_prompt("Title")
@@ -40,6 +42,7 @@ impl Templateable for DefaultTemplate {
                 .interact_text_on(&term)?;
             subjects.push(input.clone());
         }
+        subjects.pop(); // Remove leave blank to continue from list
         let mut keywords: Vec<String> = vec![];
         input = String::new();
         while input != BLANK_TO_CONTINUE.to_string() {
@@ -51,6 +54,7 @@ impl Templateable for DefaultTemplate {
                 .interact_text_on(&term)?;
             keywords.push(input.clone());
         }
+        keywords.pop(); // Remove leave blank to continue from list
         let header = if Confirm::with_theme(theme)
             .with_prompt("Configure header?")
             .interact_on(&term)?
@@ -85,6 +89,12 @@ impl Templateable for DefaultTemplate {
             footer,
             macros,
         })
+    }
+}
+
+impl Display for DateConfig {
+    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
+        todo!()
     }
 }
 

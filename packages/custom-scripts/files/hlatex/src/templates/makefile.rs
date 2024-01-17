@@ -56,7 +56,7 @@ impl Templateable for Makefile {
 
 pub(crate) fn run(
     file: Option<PathBuf>,
-    template: Option<String>,
+    _template: Option<String>,
     term: &Term,
     theme: &dyn Theme,
 ) -> Result<(), std::io::Error> {
@@ -81,7 +81,7 @@ pub(crate) fn run(
     };
     if file.exists() {
     } else {
-        let template = Makefile::create_template(&term, theme)?.render().expect("");
+        let _template = Makefile::create_template(&term, theme)?.render().expect("");
     }
     Ok(())
 }
