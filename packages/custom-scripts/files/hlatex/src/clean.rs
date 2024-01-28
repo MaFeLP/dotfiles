@@ -1,9 +1,9 @@
 use dialoguer::{console::Term, theme::Theme, MultiSelect};
 use std::path::PathBuf;
 
-pub(crate) const EXTENSIONS: [&'static str; 11] = [
-    ".aux", ".bbl", ".bcf", ".blg", ".log", ".out", ".pdf", ".run.xml", ".tex.bbl", ".tex.blg",
-    ".toc",
+pub(crate) const EXTENSIONS: [&'static str; 13] = [
+    ".aux", ".bbl", ".bcf", ".blg", ".lof", ".log", ".lot", ".out", ".pdf", ".run.xml", ".tex.bbl",
+    ".tex.blg", ".toc",
 ];
 
 pub(crate) fn clean(base_filename: &str, term: &Term, theme: &dyn Theme) -> dialoguer::Result<()> {
