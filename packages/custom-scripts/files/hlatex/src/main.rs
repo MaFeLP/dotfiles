@@ -1,9 +1,6 @@
 use crate::{clean::clean, compile::compile};
-use dialoguer::{
-    console::Term,
-    theme::ColorfulTheme,
-    Completion, Select,
-};
+use dialoguer::{console::Term, theme::ColorfulTheme, Completion, Select};
+use std::io;
 
 mod add;
 mod clean;
@@ -31,7 +28,6 @@ impl TexFilesCompletion {
         }
         Ok(Self { files: paths })
     }
-
 }
 
 impl Completion for TexFilesCompletion {
@@ -62,6 +58,18 @@ fn main() -> dialoguer::Result<()> {
         match command {
             Commands::Add { file, block, line } => {
                 add::run(Some(file), block, line, &term, &theme)?
+            }
+            Commands::Clean { file } => {
+                let filename = file.into_os_string().into_string().map_err(|_| {
+                    io::Error::new(io::ErrorKind::NotFound, "The Base could not be found!")
+                })?;
+                if &filename[&filename.len() - 4..] != ".tex" {
+                    return Err(dialoguer::Error::IO(io::Error::new(
+                        io::ErrorKind::InvalidInput,
+                        "Can only clean '.tex' files!",
+                    )));
+                }
+                clean(&filename[..&filename.len() - 4], &term, &theme)?
             }
             Commands::Compile {
                 file,
