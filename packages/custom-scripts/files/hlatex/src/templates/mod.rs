@@ -7,6 +7,7 @@ pub(crate) mod blocks;
 mod default_template;
 pub(crate) mod makefile;
 pub(crate) mod typst;
+pub(crate) mod typst_headings;
 
 pub(crate) trait Templateable {
     fn create_template(term: &Term, theme: &dyn Theme) -> dialoguer::Result<Self>
@@ -51,6 +52,11 @@ pub fn run(
                 .expect(
                     "Rendering the template went wrong! Please create an issue on the bug tracker!",
                 ),
+            "headings-typ" => typst_headings::DefaultTemplate::create_template(&term, theme)?
+                .render()
+                .expect(
+                    "Rendering the template went wrong! Please create an issue on the bug tracker!",
+                ),
             _ => "".to_string(),
         },
         None => {
@@ -59,6 +65,7 @@ pub fn run(
                 .default(0)
                 .item("Default Template (LaTeX)")
                 .item("Default Template (typst)")
+                .item("Headers Only (typst)")
                 .item("MLA Essay")
                 .item("Chemical Paper")
                 .interact_on(&term)?
@@ -69,6 +76,11 @@ pub fn run(
                     "Rendering the template went wrong! Please create an issue on the bug tracker!",
                 ),
                 1 => typst::DefaultTemplate::create_template(&term, theme)?
+                    .render()
+                    .expect(
+                        "Rendering the template went wrong! Please create an issue on the bug tracker!",
+                    ),
+                2 => typst_headings::DefaultTemplate::create_template(&term, theme)?
                     .render()
                     .expect(
                         "Rendering the template went wrong! Please create an issue on the bug tracker!",

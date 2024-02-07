@@ -1,7 +1,7 @@
-use std::fmt::{Display, Formatter};
 use super::Templateable;
 use askama::Template;
 use dialoguer::{console::Term, theme::Theme, Confirm, Input, MultiSelect, Select};
+use std::fmt::{Display, Formatter};
 
 #[derive(Template)]
 #[template(path = "default.tex")]
@@ -93,8 +93,11 @@ impl Templateable for DefaultTemplate {
 }
 
 impl Display for DateConfig {
-    fn fmt(&self, _f: &mut Formatter<'_>) -> std::fmt::Result {
-        todo!()
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self {
+            DateConfig::Today => f.write_str("DateConfig::Today"),
+            DateConfig::Other(s) => f.write_str(&s),
+        }
     }
 }
 
