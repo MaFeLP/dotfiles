@@ -149,6 +149,10 @@ require("lazy").setup({
         "mfussenegger/nvim-dap",
         lazy = true,
       },
+      {
+        "nvim-neotest/nvim-nio",
+        lazy = true,
+      },
     },
     event = "VeryLazy",
     keys = {
