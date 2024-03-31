@@ -44,13 +44,13 @@ alias cloud-unmount='sudo umount /mnt/WDMyCloudMirror/max && sudo umount /mnt/WD
 
 if [ "$TTY" =~ \/dev\/tty[0-9]+ ];then
   # Logged in in tty
-  alias exa='exa --color=auto'
-  alias ll='exa -lbh --color=auto --group-directories-first'
-  alias tree='exa --color=auto --tree'
+  alias eza='eza --color=auto'
+  alias ll='eza -lbh --color=auto --group-directories-first --git'
+  alias tree='eza --color=auto --tree'
 else
   # Logged in not via tty, e.g. SSH / Desktop Environment
-  alias exa='exa --icons --color=auto'
-  alias ll='exa -lbh --icons --color=auto --group-directories-first'
-  alias tree='exa --icons --color=auto --tree'
+  alias eza='eza --icons --color=auto'
+  alias ll='eza -lbh --icons --color=auto --group-directories-first --git'
+  alias tree='eza --icons --color=auto --tree'
 fi
 

@@ -5,7 +5,8 @@ Notice:
 
 To enable this customization, run the following commands:
 
-mkdir -p ~/.config/zsh ~/.local/state/zsh
+mkdir -p ~/.config/zsh ~/.local/state/zsh ~/.config/environment.d/
 touch ~/.config/zsh/.zshrc
+ln -s /etc/zsh/systemd_environment.env ~/.config/environment.d/default_env.conf
 EOF
 }

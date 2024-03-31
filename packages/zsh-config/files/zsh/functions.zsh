@@ -88,3 +88,12 @@ EOF
     docker.io/library/nginx:latest
 }
 
+function install_dot_package {
+  printf "\033[0;1m\033[0;96mBuilding and creating dotfile package...\033[0;0m\n"
+  tar cvzf files.tar.gz files/
+  sd 'sha256sums=\(".*"\)' "sha256sums=(\"$(sha256sum files.tar.gz | cut -d' ' -f1)\")" PKGBUILD
+  makepkg --force --clean --syncdeps --install
+  rm -v files.tar.gz
+  printf "\033[0;1m\033[0;96mDone!\033[0;0m\n"
+}
+

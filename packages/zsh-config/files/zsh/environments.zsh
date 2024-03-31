@@ -26,9 +26,9 @@ if [ -d "${HOME}/.pub-cache/bin/" ]; then
   export PATH="$PATH:${HOME}/.pub-cache/bin"
 fi
 
-
-# exports the school path to current year.
-export SCHOOL=/mnt/Data/Schule/Canada/
+if [ -d $HOME/Schule/ ];then
+  export CDPATH="$HOME/Schule"
+fi
 
 ################################################################################
 ##                          Other useful variables                            ##

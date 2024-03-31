@@ -1,6 +1,6 @@
 # Maintainer: MaFeLP <mafelp@proton.me>
 pkgname='zsh-config'
-pkgver='1.0.3'
+pkgver='1.0.5'
 pkgrel='1'
 pkgdesc='My personal ZSH configurations'
 arch=('any')
@@ -17,8 +17,18 @@ depends=(
 )
 makedepends=()
 source=("files.tar.gz")
-sha256sums=("16e36393e281b7ac0643ed88926acc33fad635169d1b4e00626015badb5fbedd")
+sha256sums=("7ba1790e0d648d763153b395d6700f819aae48ef4fb513143faeb7daec421d15")
 install="${pkgname}.install"
+
+prepare() {
+  cd "${srcdir}/files"
+
+  # Prepare the normal environment file for systemd
+  cp zshenv environment
+  sd '^export ' '' environment   # remove the export at the start of lines
+  sd '^#.*$' '' environment      # remove comments
+  sed -i '/^\s*$/d' environment  # remove blank lines
+}
 
 package() {
   cd "${srcdir}/files"
@@ -29,7 +39,10 @@ package() {
   done
 
   # Enables environment variables in tty
-  install -Dm644 environment "${pkgdir}/etc/zsh/zshenv"
+  install -Dm644 zshenv "${pkgdir}/etc/zsh/zshenv"
+  install -Dm644 environment "${pkgdir}/etc/zsh/systemd_environment.env"
+
   install -Dm644 starship.toml "${pkgdir}/etc/starship.toml"
   install -Dm644 zshrc "${pkgdir}/etc/zsh/zshrc"
 }
+

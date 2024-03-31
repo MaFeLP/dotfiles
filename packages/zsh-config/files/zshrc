@@ -33,21 +33,23 @@ source "/etc/zsh/custom/key-bindings.zsh"
 RED="$(tput setaf 1)"
 ORANGE="$(tput setaf 3)"
 CYAN="$(tput setaf 6)"
-echo -e "${CYAN}Welcome to ${ORANGE}ArchLinux${RED}!$CYAN Running ${ORANGE}$(pacman -Q linux-zen)${RED}!"
+echo -e "${CYAN}Welcome to ${ORANGE}ArchLinux${RED}!$CYAN Running ${ORANGE}$(uname --kernel-release)${RED}!"
 echo -e "${CYAN}You are currently logged in as: ${ORANGE}$(whoami)${RED}!"
 
 ################################################################################
 ##                                  Plugins                                   ##
 ################################################################################
+# Enables autocompletion
+zstyle :compinstall filename "$XDG_CONFIG_HOME/zsh/.zshrc"
+autoload -Uz compinit
+compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
+source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# Enables zsh-syntax-highlighting
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # Makes prompt nice and enables 'fuck' and 'z' (fat jumping) commands
 eval $(thefuck --alias fuck)
 eval $(starship init zsh)
 [[ -r "/usr/share/z/z.sh" ]] && source /usr/share/z/z.sh
 
-# Enables autocompletion
-zstyle :compinstall filename "$XDG_CONFIG_HOME/zsh/.zshrc"
-autoload -Uz compinit
-compinit -d "$XDG_CACHE_HOME"/zsh/zcompdump-"$ZSH_VERSION"
-
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
