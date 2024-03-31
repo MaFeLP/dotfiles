@@ -188,13 +188,13 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
     lazy = true,
     keys = {
-        { "<leader>xx", function() require('trouble').open() end, desc = "Open Diagnostics Window" },
+        { "<leader>xc", function() require('trouble').toggle() end, desc = "Toggle Diagnostics Window" },
         { "<leader>xw", function() require('trouble').open('workspace_diagnostics') end, desc = "Open Workspace Diagnostics" },
-        { "<leader>xd", function() require('trouble').open('document_diagnostics') end, desc = "Open Document Diagnostics" },
+        { "<leader>xx", function() require('trouble').open('document_diagnostics') end, desc = "Open Document Diagnostics" },
         { "<leader>xq", function() require('trouble').open('quickfix') end, desc = "Show Quick Fixes" },
         { "<leader>xl", function() require('trouble').open('loclist') end, desc = "Window Locations" },
         { "<leader>xr", function() require('trouble').open('lsp_references') end, desc = "Show references" },
-        { "<leader>xd", function() require('trouble').open('lsp_definitions') end, desc = "Show references" },
+        { "<leader>xd", function() require('trouble').open('lsp_definitions') end, desc = "Show definitions" },
     },
   },
 
