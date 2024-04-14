@@ -30,11 +30,14 @@ source "/etc/zsh/custom/functions.zsh"
 source "/etc/zsh/custom/key-bindings.zsh"
 
 # Display welcome text on startup
-RED="$(tput setaf 1)"
-ORANGE="$(tput setaf 3)"
-CYAN="$(tput setaf 6)"
-echo -e "${CYAN}Welcome to ${ORANGE}ArchLinux${RED}!$CYAN Running ${ORANGE}$(uname --kernel-release)${RED}!"
-echo -e "${CYAN}You are currently logged in as: ${ORANGE}$(whoami)${RED}!"
+(
+  source "/usr/lib/os-release"
+  RED="$(tput setaf 1)"
+  ORANGE="$(tput setaf 3)"
+  CYAN="$(tput setaf 6)"
+  echo -e "${CYAN}Welcome to ${ORANGE}$(cat /etc/hostname)${RED}!$CYAN Running ${ORANGE}${PRETTY_NAME}${RED}!"
+  echo -e "${CYAN}You are currently logged in as: ${ORANGE}$(whoami)${RED}!"
+)
 
 ################################################################################
 ##                                  Plugins                                   ##
