@@ -26,6 +26,19 @@ require("mason-lspconfig").setup_handlers {
       capabilities = capabilities,
     }
   end,
+
+  -- Fix workdir in typst projects
+  ["tinymist"] = function ()
+    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+    require"lspconfig".tinymist.setup {
+      capabilities = capabilities,
+      single_file_support = true,
+      offset_encoding = "utf-8",
+      root_dir = function()
+        return vim.fn.getcwd()
+      end,
+    }
+  end,
 }
 
 -- Setup Code completion with cmp

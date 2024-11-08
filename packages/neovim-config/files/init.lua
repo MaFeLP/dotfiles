@@ -9,6 +9,13 @@ vim.g.loaded_netrwPlugin = 1
 -- Set the leader key
 vim.g.mapleader = " "
 
+-- Configure typst as a filetype
+vim.filetype.add({
+  extension = {
+    typ = "typst",
+  },
+})
+
 -- Configure plugins
 require 'plugins'
 require 'opt'

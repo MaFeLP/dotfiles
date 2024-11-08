@@ -210,10 +210,10 @@ require("lazy").setup({
         wk.setup()
 
         wk.register({
-          ["<leader>f"] = { name = "Find ..." },
-          ["<leader>x"] = { name = "Diagnostics ..." },
-          ["<leader>d"] = { name = "Debugging ..." },
-          ["<leader>g"] = { name = "Grammar ..." },
+          ["<leader>f"] = { group = "Find ..." },
+          ["<leader>x"] = { group = "Diagnostics ..." },
+          ["<leader>d"] = { group = "Debugging ..." },
+          ["<leader>g"] = { group = "Grammar ..." },
         })
     end,
   },
