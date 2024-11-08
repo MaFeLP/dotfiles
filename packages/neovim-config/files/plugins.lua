@@ -210,30 +210,32 @@ require("lazy").setup({
         wk.setup()
 
         wk.register({
-          ["<leader>f"] = { group = "Find ..." },
-          ["<leader>x"] = { group = "Diagnostics ..." },
-          ["<leader>d"] = { group = "Debugging ..." },
-          ["<leader>g"] = { group = "Grammar ..." },
+          { "<leader>d", group = "Debugging ..." },
+          { "<leader>f", group = "Find ..." },
+          { "<leader>g", group = "Grammar ..." },
+          { "<leader>x", group = "Diagnostics ..." },
         })
     end,
+    dependencies = { "echasnovski/mini.icons" },
   },
 
   -- Spell Checking
-  {
-    'rhysd/vim-grammarous',
-    lazy = true,
-    keys = {
-      { "<leader>gg", "<cmd>GrammarousCheck<cr>", desc = "Start Grammar Check" },
-      { "<leader>go", "<Plug>(grammarous-open-info-window)", desc = "Open Grammar Window" },
-      { "<leader>gc", "<Plug>(grammarous-close-info-window)", desc = "Close Grammar Window" },
-      { "<Leader>gf", "<Plug>(grammarous-fixit)", desc = "Fix grammar mistake" },
-    },
-    init = function()
-      -- fix error when loading the latest LanguageTool version
-      -- TODO: Fork and update to latest version
-      vim.g.grammarous_jar_url = 'https://www.languagetool.org/download/LanguageTool-5.9.zip'
-    end,
-  },
+  -- Spell checking might also be handled by ltex language server!
+  --{
+  --  'rhysd/vim-grammarous',
+  --  lazy = true,
+  --  keys = {
+  --    { "<leader>gg", "<cmd>GrammarousCheck<cr>", desc = "Start Grammar Check" },
+  --    { "<leader>go", "<Plug>(grammarous-open-info-window)", desc = "Open Grammar Window" },
+  --    { "<leader>gc", "<Plug>(grammarous-close-info-window)", desc = "Close Grammar Window" },
+  --    { "<Leader>gf", "<Plug>(grammarous-fixit)", desc = "Fix grammar mistake" },
+  --  },
+  --  init = function()
+  --    -- fix error when loading the latest LanguageTool version
+  --    -- TODO: Fork and update to latest version
+  --    vim.g.grammarous_jar_url = 'https://www.languagetool.org/download/LanguageTool-5.9.zip'
+  --  end,
+  --},
 
   -- Colorschemes
   { "dracula/vim", lazy = true, name = "dracula" },  -- Dracula color scheme
