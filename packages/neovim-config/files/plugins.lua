@@ -209,11 +209,11 @@ require("lazy").setup({
         local wk = require("which-key")
         wk.setup()
 
-        wk.register({
+        wk.add({
           { "<leader>d", group = "Debugging ..." },
           { "<leader>f", group = "Find ..." },
           { "<leader>g", group = "Grammar ..." },
-          { "<leader>x", group = "Diagnostics ..." },
+          { "<leader>t", group = "Diagnostics ..." },
         })
     end,
     dependencies = { "echasnovski/mini.icons" },
