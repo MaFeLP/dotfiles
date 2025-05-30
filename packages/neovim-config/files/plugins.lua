@@ -111,24 +111,25 @@ require("lazy").setup({
       require('mason-update-all').setup()
     end,
     dependencies = {
-      "williamboman/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
+      opts = {},
       dependencies = {
         {
-          "williamboman/mason-lspconfig.nvim",
-          config = function ()
-            -- Do not set up mason-lspconfig here, but instead after mason itself
-          end,
+          "mason-org/mason.nvim",
+          opts = {},
+          dependencies = {
+            { -- Linter
+              "jose-elias-alvarez/null-ls.nvim",
+              dependencies = { "nvim-lua/plenary.nvim" },
+            },
+          },
         },
         "neovim/nvim-lspconfig",
-        { -- Linter
-          "jose-elias-alvarez/null-ls.nvim",
-          dependencies = { "nvim-lua/plenary.nvim" },
-        },
       },
-      config = function ()
-        require 'lsp'
-      end,
       lazy = false,
+      config = function ()
+        require "lsp"
+      end,
     },
   },
 

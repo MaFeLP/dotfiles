@@ -8,38 +8,38 @@ require("mason-lspconfig").setup()
 -- ln -s <build_dir>/compile_commands.json <project_dir>/compile_commands.json
 
 -- Register Mason to setup all language servers
-require("mason-lspconfig").setup_handlers {
-  function (server_name)
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    require("lspconfig")[server_name].setup {
-      capabilities = capabilities,
-    }
-  end,
-
-  -- add more file names to the bash language server
-  ["bashls"] = function ()
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    require"lspconfig".bashls.setup {
-      cmd_env = {
-        GLOB_PATTERN = "*@(.sh|.inc|.bash|.zsh|.command)",
-      },
-      capabilities = capabilities,
-    }
-  end,
-
-  -- Fix workdir in typst projects
-  ["tinymist"] = function ()
-    local capabilities = require("cmp_nvim_lsp").default_capabilities()
-    require"lspconfig".tinymist.setup {
-      capabilities = capabilities,
-      single_file_support = true,
-      offset_encoding = "utf-8",
-      root_dir = function()
-        return vim.fn.getcwd()
-      end,
-    }
-  end,
-}
+--require("mason-lspconfig").setup_handlers {
+--  function (server_name)
+--    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+--    require("lspconfig")[server_name].setup {
+--      capabilities = capabilities,
+--    }
+--  end,
+--
+--  -- add more file names to the bash language server
+--  ["bashls"] = function ()
+--    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+--    require"lspconfig".bashls.setup {
+--      cmd_env = {
+--        GLOB_PATTERN = "*@(.sh|.inc|.bash|.zsh|.command)",
+--      },
+--      capabilities = capabilities,
+--    }
+--  end,
+--
+--  -- Fix workdir in typst projects
+--  ["tinymist"] = function ()
+--    local capabilities = require("cmp_nvim_lsp").default_capabilities()
+--    require"lspconfig".tinymist.setup {
+--      capabilities = capabilities,
+--      single_file_support = true,
+--      offset_encoding = "utf-8",
+--      root_dir = function()
+--        return vim.fn.getcwd()
+--      end,
+--    }
+--  end,
+--}
 
 -- Setup Code completion with cmp
 local cmp = require'cmp'
