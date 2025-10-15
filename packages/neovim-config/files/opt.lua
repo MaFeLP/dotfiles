@@ -1,5 +1,6 @@
 local opt = vim.opt
 opt.number = true              -- Adds line numbers
+opt.relativenumber = true      -- Make line numbers relative
 opt.ignorecase = true          -- Make searching case insensitive
 opt.smartcase = true           -- ... unless the query has capital letters.
 opt.gdefault = true            -- Use 'g' flag by default with :s/foo/bar/.
