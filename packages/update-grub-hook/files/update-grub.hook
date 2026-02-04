@@ -1,0 +1,18 @@
+[Trigger]
+Operation = Upgrade
+Type = Package
+Target = grub
+
+[Trigger]
+Operation = Install
+Operation = Upgrade
+Operation = Remove
+Type = Path
+Target = usr/share/grub/themes/
+
+[Action]
+Description = Update grub in the UEFI
+When = PostTransaction
+Exec = /usr/share/libalpm/scripts/update-grub
+Depends = grub
+

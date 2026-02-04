@@ -37,3 +37,8 @@ My personal configurations for zsh:
 - aliases
 - fuck
 - other useful functions
+
+### update-grub
+Contains a pacman hook that automatically updates the grub binaries in the UEFI whenever a new theme is installed
+or when grub itself is updated.
+

@@ -1,0 +1,21 @@
+# Maintainer: MaFeLP <mafelp@proton.me>
+pkgname='update-grub-hook'
+pkgver='1.0.0'
+pkgrel='1'
+pkgdesc='Adds a pacman hook that installs grub to /efi after a grub package update'
+arch=('any')
+url='https://github.com/mafelp/dotfiles'
+license=('GPL3')
+depends=('pacman')
+makedepends=()
+source=("files.tar.gz")
+sha256sums=("c03932aeb32f5b53d2abdbcc9082a6233fd483cb403ef9808a1a562f37715b08")
+#install="${pkgname}.install"
+
+package() {
+  cd "${srcdir}/files"
+
+  install -Dm755 update-grub "${pkgdir}/usr/share/libalpm/scripts/update-grub"
+  install -Dm644 update-grub.hook "${pkgdir}/usr/share/libalpm/hooks/update-grub.hook"
+}
+

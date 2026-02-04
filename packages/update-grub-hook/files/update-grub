@@ -1,0 +1,10 @@
+#!/usr/bin/env /usr/bin/bash
+
+if [ -d "/efi" ]
+then
+  mount /efi
+fi
+
+grub-install --efi-directory /efi
+grub-mkconfig -o /boot/grub/grub.cfg
+
