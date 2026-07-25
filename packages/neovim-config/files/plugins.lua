@@ -117,12 +117,7 @@ require("lazy").setup({
         {
           "mason-org/mason.nvim",
           opts = {},
-          dependencies = {
-            { -- Linter
-              "jose-elias-alvarez/null-ls.nvim",
-              dependencies = { "nvim-lua/plenary.nvim" },
-            },
-          },
+          dependencies = {},
         },
         "neovim/nvim-lspconfig",
       },
